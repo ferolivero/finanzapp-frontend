@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import BtnRedondo from './btnRedondo';
 
-export default function BotoneraFooter({ txtLeft, onPressLeft, txtCenter, onPressCenter, txtRight, onPressRight }) {
+export default function BotoneraFooter({ txtLeft, onPressLeft, imgCenter, onPressCenter, txtRight, onPressRight }) {
 
     return (
         <View style={styles.footerWrapper}>
             <View style={styles.btnLeft}><Button title={txtLeft} onPress={onPressLeft}/></View>
-            <BtnRedondo text={txtCenter} onPressAction={onPressCenter} />
+            <BtnRedondo img={imgCenter} onPressAction={onPressCenter} />
             <View style={styles.btnRight}><Button title={txtRight} onPress={onPressRight}/></View>
         </View>
     );

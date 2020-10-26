@@ -12,10 +12,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen options={{title:"Finanzapp"}} name="Home" component={Home}/>
-            <Stack.Screen options={{title:"Finanzapp"}} name="Agregar" component={Agregar}/>
-        </Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}
+                       initialRouteName="Home">
+        <Stack.Screen options={{ title: "Finanzapp" }} name="Home" component={Home} />
+        <Stack.Screen options={{ title: "Finanzapp" }} name="Agregar" component={Agregar} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

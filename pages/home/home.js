@@ -2,17 +2,22 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 // import Constants from 'expo-constants';
-import FooterHome from './components/footerHome';
-import HeaderHome from './components/headerHome';
-
+import Page from './../../global-components/page.js';
+    const mesActual = new Date();
+    const monthNames = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+                        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+    const txtHeader = `Balance ${monthNames[mesActual.getMonth()]}: $345`
 export default function Home({navigation}) {
     return (
-        <View style={styles.container}>
-            <HeaderHome />
-            <Text>Home</Text>
-            <FooterHome navigation={navigation}/>
-            <StatusBar style="auto" />
-        </View>
+        <Page
+        txtHeader={txtHeader}
+        txtLeft="I"
+        onPressLeft={() => { console.log("Informes") }}
+        imgCenter={require('./btnAgregar.png')}
+        onPressCenter={() => { navigation.navigate('Agregar') }}
+        txtRight="C"
+        onPressRight={() => { console.log("Config") }}
+        />
     );
 }
 

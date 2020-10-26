@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-export default function BtnRedondo({ text, onPressAction }) {
+import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+export default function BtnRedondo({ img, onPressAction }) {
 
     return (
         <View>
@@ -11,7 +11,7 @@ export default function BtnRedondo({ text, onPressAction }) {
                 style={styles.btnRedondo}
             >
                 <View style={styles.txtCenter}>
-                    <Text>{text}</Text>
+                    <Image style={styles.imgBtn} source={img} />
                 </View>
             </TouchableOpacity>
         </View>
@@ -25,11 +25,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     btnRedondo: {
-        backgroundColor: 'rgba(20,174,255,0.51)',
         justifyContent: 'center',
         alignContent: 'center',
         borderRadius: (90 / 2),
+        borderWidth: 1,
         width: 90,
         height: 90,
     },
+    imgBtn: {
+        width: 70,
+        height: 70
+    }
 });

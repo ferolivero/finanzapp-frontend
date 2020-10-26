@@ -1,17 +1,21 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
-import FooterAgregar from './components/footerAgregar';
-import HeaderAgregar from './components/headerAgregar';
+// import Constants from 'expo-constants';
+import Page from './../../global-components/page.js';
+
 
 export default function Agregar({navigation}) {
     return (
-        <View style={styles.container}>
-            <HeaderAgregar />
-            <FooterAgregar navigation={navigation}/>
-            <StatusBar style="auto" />
-        </View>
+        <Page
+        txtHeader="Agregar"
+        txtLeft="I"
+        onPressLeft={() => { console.log("Informes") }}
+        imgCenter={require('./btnHome.png')}
+        onPressCenter={() => { navigation.navigate('Home') }}
+        txtRight="C"
+        onPressRight={() => { console.log("Config") }}
+        />
     );
 }
 
