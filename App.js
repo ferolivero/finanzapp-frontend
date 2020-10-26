@@ -2,20 +2,13 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Button, Text, View, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
-import BtnRedondo from './components/home/btnRedondo'
+import BtnRedondo from './global-components/btnRedondo'
+import Home from './pages/home/home.js';
 
 export default function App() {
 
   return (
-    <View style={styles.container}>
-      <Text styles={styles.txtGrande}>Open up App.js to start working on your app!</Text>
-      <View style={styles.footerWrapper}>
-      <View style={styles.btnAncho}><Button title="Informes" /></View>
-      <BtnRedondo />
-      <View style={styles.btnAncho}><Button title="Config" /></View>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+    <Home />
   );
 }
 
@@ -37,18 +30,26 @@ const styles = StyleSheet.create({
     fontSize: 60,
   },
   footerWrapper: {
-    flexWrap: 'wrap', 
+    flexWrap: 'wrap',
     alignItems: 'flex-start',
-    flexDirection:'row',
+    flexDirection: 'row',
     position: 'absolute',
     bottom: 10,
 
   },
+  headerWrapper: {
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 0,
+    fontSize: 30
+  },
   btnAncho: {
     width: 125,
-    marginTop:30,
-    paddingRight:5,
-    paddingLeft:5,
+    marginTop: 30,
+    paddingRight: 5,
+    paddingLeft: 5,
     borderTopWidth: 1
   },
 });

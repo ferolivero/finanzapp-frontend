@@ -1,16 +1,18 @@
 
 import React from 'react';
-import { StyleSheet, Button, Text, View, TouchableOpacity } from 'react-native';
-import BtnRedondoTxt from './btnRedondoTxt';
-export default function BtnRedondo() {
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+export default function BtnRedondo({ text, onPressAction }) {
 
     return (
         <View>
             <TouchableOpacity
-                activeOpacity={.8} //The opacity of the button when it is pressed
+                activeOpacity={.8}
+                onPress={onPressAction}
                 style={styles.btnRedondo}
             >
-                <BtnRedondoTxt />
+                <View style={styles.txtCenter}>
+                    <Text>{text}</Text>
+                </View>
             </TouchableOpacity>
         </View>
     );
@@ -21,10 +23,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    txtGrande: {
-        fontFamily: 'Helvetica',
-        fontSize: 160,
     },
     btnRedondo: {
         backgroundColor: 'rgba(20,174,255,0.51)',
