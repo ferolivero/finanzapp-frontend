@@ -1,55 +1,21 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Text, View, TouchableOpacity } from 'react-native';
-import Constants from 'expo-constants';
-import BtnRedondo from './global-components/btnRedondo'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import Home from './pages/home/home.js';
+import Agregar from './pages/agregar/agregar.js';
+
+
+const Stack = createStackNavigator();
 
 export default function App() {
 
   return (
-    <Home />
+    <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen options={{title:"Finanzapp"}} name="Home" component={Home}/>
+            <Stack.Screen options={{title:"Finanzapp"}} name="Agregar" component={Agregar}/>
+        </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Constants.statusBarHeight,
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  txtCenter: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  txtGrande: {
-    fontFamily: 'Helvetica',
-    fontSize: 60,
-  },
-  footerWrapper: {
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 10,
-
-  },
-  headerWrapper: {
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    fontSize: 30
-  },
-  btnAncho: {
-    width: 125,
-    marginTop: 30,
-    paddingRight: 5,
-    paddingLeft: 5,
-    borderTopWidth: 1
-  },
-});
