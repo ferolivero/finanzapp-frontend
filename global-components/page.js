@@ -29,13 +29,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    headerWrapper: {
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        flexDirection: 'row',
-        position: 'absolute',
-        top: 0,
-        fontSize: 30
-    },
+    }
 });
