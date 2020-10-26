@@ -17,18 +17,10 @@ export default function Agregar({navigation}) {
 
 const styles = StyleSheet.create({
     container: {
-        // marginTop: Constants.statusBarHeight,
+        marginTop: Constants.statusBarHeight,
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    headerWrapper: {
-        flexWrap: 'wrap',
-        alignItems: 'flex-start',
-        flexDirection: 'row',
-        position: 'absolute',
-        top: 0,
-        fontSize: 30
     },
 });

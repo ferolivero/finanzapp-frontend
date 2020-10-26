@@ -6,10 +6,9 @@ export default function BotoneraFooterAgregar({navigation}) {
     return (
         <BotoneraFooter txtLeft="I"
             onPressLeft={() => { console.log("Informes") }}
-            txtCenter="Home"
+            imgCenter={require('./btnHome.png')}
             onPressCenter={() => { navigation.navigate('Home') }}
             txtRight="C"
             onPressRight={() => { console.log("Config") }} />
-
     );
 }
