@@ -18,6 +18,7 @@ async function signInWithGoogleAsync() {
     const { type, accessToken } = result;
 
     if (type === 'success') {
+      console.log('Inicia el logout');
       /* Log-Out */
       await Google.logOutAsync({ accessToken, ...config });
       /* `accessToken` is now invalid and cannot be used to get data from the Google API with HTTP requests */
@@ -27,32 +28,6 @@ async function signInWithGoogleAsync() {
     return { error: true };
   }
 }
-
-const LoginForm = () => (
-  <View style={styles.container}>
-    <Text>Open up App.js to start working on your app!</Text>
-    <StatusBar style="auto" />
-    {/* Asi seria con un boton normal */}
-    {/* <Button
-      title="Google Sign in"
-      onPress={() => signInWithGoogleAsync()}
-
-    /> */}
-
-    {/* Asi seria con un TouchableOpacity que permite agregar varios elementos para que sean "touchables" */}
-    {/* En este ejemplo yo les puse una simple imagen para Google Sign In */}
-    <TouchableOpacity
-      style={styles.buttonGPlusStyle}
-      activeOpacity={0.5}
-      onPress={() => signInWithGoogleAsync()}
-      >
-      <Image
-        source={require('./../../assets/btn_google_signin.png')}
-        style={styles.buttonImageIconStyle}
-      />
-    </TouchableOpacity>
-  </View>
-)
 
 const styles = StyleSheet.create({
   container: {
@@ -78,5 +53,20 @@ const styles = StyleSheet.create({
   },
 });
 
+export default LoginScreen = () => (
+  <View style={styles.container}>
+    <Text>Open up App.js to start working on your app!</Text>
+    <StatusBar style="auto" />
 
-export default LoginForm;
+    <TouchableOpacity
+      style={styles.buttonGPlusStyle}
+      activeOpacity={0.5}
+      onPress={() => signInWithGoogleAsync()}
+      >
+      <Image
+        source={require('./../assets/btn_google_signin.png')}
+        style={styles.buttonImageIconStyle}
+      />
+    </TouchableOpacity>
+  </View>
+)
