@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Button } from 'react-native';
 import BtnRedondo from './btnRedondo';
 
-export default function BotoneraFooter({ txtLeft, onPressLeft, imgCenter, onPressCenter, txtRight, onPressRight }) {
+export default function Footer({ txtLeft, onPressLeft, imgCenter, onPressCenter, txtRight, onPressRight }) {
 
     return (
         <View style={styles.footerWrapper}>
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     footerWrapper: { 
         alignItems: 'flex-start',
         flexDirection:'row',
-        position: 'absolute',
-        bottom: 10,
+        justifyContent: 'flex-end',
       },
 });
