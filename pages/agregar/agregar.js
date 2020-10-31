@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Button, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import FooterAgregar from './components/footerAgregar';
-import SwitchSelector from "react-native-switch-selector";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Selector from './components/selector';
+import { Dimensions } from "react-native";
+let fullWidth = Dimensions.get('window').width; //full width
+
+
 
 
 export default function Agregar({ navigation }) {
     const [color, setColor] = useState('rgb(255,0,0)');
     const [tipo, setTipo] = useState('g');
     const [fecha, setFecha] = useState(new Date(Date.now()));
-
 
     useEffect(() => {
         if (tipo === 'i') {
@@ -21,50 +24,38 @@ export default function Agregar({ navigation }) {
     }, [tipo])
 
 
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [datePickerVisible, setDatePickerVisible] = useState(false);
 
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
+    const mostrarDatePicker = () => {
+        setDatePickerVisible(true);
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
+    const ocultarDatePicker = () => {
+        setDatePickerVisible(false);
     };
 
-    const handleConfirm = date => {
+    const confirmarFecha = date => {
         setFecha(date);
-        hideDatePicker();
+        ocultarDatePicker();
     };
 
 
     return (
         <View style={styles.container}>
             <View style={styles.bigContainer}>
-                <SwitchSelector
-                    initial={0}
-                    selectedColor='rgb(255,255,255)'
-                    onPress={value => setTipo(value)}
-                    buttonColor={color}
-                    borderColor='rgb(0,0,0)'
-                    height={50}
-                    fontSize={25}
-                    backgroundColor={'#D3D3D3'}
-                    hasPadding
-                    options={[
-                        { label: "Gasto", value: "g" },
-                        { label: "Ingreso", value: "i" }
-                    ]}
+                <Selector
+                    onPressAction={setTipo}
+                    color={color}
                 />
-            
             <View style={styles.row}><Text>{fecha.toDateString()}</Text>
-                <TouchableOpacity  style={{borderWidth:1}} onPress={showDatePicker}>
+                <TouchableOpacity  style={{borderWidth:1}} onPress={mostrarDatePicker}>
                     <Text>Editar</Text>
                 </TouchableOpacity>
                 <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
+                    isVisible={datePickerVisible}
                     mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
+                    onConfirm={confirmarFecha}
+                    onCancel={ocultarDatePicker}
                     isDarkModeEnabled={false}
                     headerTextIOS='Fecha'
                     cancelTextIOS='Cancelar'
@@ -89,7 +80,9 @@ const styles = StyleSheet.create({
     bigContainer: {
         flex: 1,
         padding: 10,
-        width: 300,
+        paddingLeft:30,
+        paddingRight:30,
+        width: fullWidth,
     },
     row: {
         flexDirection: 'row',
