@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import FooterAgregar from './components/footerAgregar';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Selector from './components/selector';
-import { Dimensions } from "react-native";
 let fullWidth = Dimensions.get('window').width; //full width
-
-
-
 
 export default function Agregar({ navigation }) {
     const [color, setColor] = useState('rgb(255,0,0)');
@@ -47,21 +43,28 @@ export default function Agregar({ navigation }) {
                     onPressAction={setTipo}
                     color={color}
                 />
-            <View style={styles.row}><Text>{fecha.toDateString()}</Text>
-                <TouchableOpacity  style={{borderWidth:1}} onPress={mostrarDatePicker}>
-                    <Text>Editar</Text>
-                </TouchableOpacity>
-                <DateTimePickerModal
-                    isVisible={datePickerVisible}
-                    mode="date"
-                    onConfirm={confirmarFecha}
-                    onCancel={ocultarDatePicker}
-                    isDarkModeEnabled={false}
-                    headerTextIOS='Fecha'
-                    cancelTextIOS='Cancelar'
-                    confirmTextIOS='Seleccionar'
-                />
-            </View>
+                
+                <Text>Monto</Text>
+                <TextInput style={{borderWidth: 1}} />
+                <Text>Descripcion</Text>
+                <TextInput style={{borderWidth: 1}} />
+                <Text>Fecha</Text>
+                <View style={styles.row}>
+                    <Text style={styles.rowItem80}>{fecha.toDateString()}</Text>
+                    <TouchableOpacity style={styles.rowItem20} onPress={mostrarDatePicker}>
+                        <Text>Editar</Text>
+                    </TouchableOpacity>
+                    <DateTimePickerModal
+                        isVisible={datePickerVisible}
+                        mode="date"
+                        onConfirm={confirmarFecha}
+                        onCancel={ocultarDatePicker}
+                        isDarkModeEnabled={false}
+                        headerTextIOS='Fecha'
+                        cancelTextIOS='Cancelar'
+                        confirmTextIOS='Seleccionar'
+                    />
+                </View>
             </View>
             <FooterAgregar navigation={navigation} />
             <StatusBar style="auto" />
@@ -80,15 +83,23 @@ const styles = StyleSheet.create({
     bigContainer: {
         flex: 1,
         padding: 10,
-        paddingLeft:30,
-        paddingRight:30,
+        paddingLeft: 30,
+        paddingRight: 30,
         width: fullWidth,
     },
     row: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
-        marginTop: 10,
+        justifyContent: 'space-around',
+    },
+    rowItem80: {
+        flexDirection: 'column',
+        borderWidth:1,
+        flex: 4
+    },
+    rowItem20: {
+        flexDirection: 'column',
+        borderWidth:1,
+        flex: 1
     },
     txt20: {
         textAlign: 'center',
