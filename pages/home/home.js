@@ -21,9 +21,11 @@ export default function Home({ navigation }) {
                     renderItem={renderItem}
                     keyExtractor={item => item.__id}
                 />
+                <Text>Ver más</Text>
             </View>
             <FooterHome navigation={navigation} />
         </View>
+        
     );
 }
 

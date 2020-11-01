@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Button, StatusBar } from 'react-native';
 import BtnRedondo from './btnRedondo';
 
 export default function Footer({ txtLeft, onPressLeft, imgCenter, onPressCenter, txtRight, onPressRight }) {
@@ -9,6 +9,7 @@ export default function Footer({ txtLeft, onPressLeft, imgCenter, onPressCenter,
             <View style={styles.btnLeft}><Button title={txtLeft} onPress={onPressLeft}/></View>
             <BtnRedondo img={imgCenter} onPressAction={onPressCenter} />
             <View style={styles.btnRight}><Button title={txtRight} onPress={onPressRight}/></View>
+            <StatusBar style="auto" />
         </View>
     );
 }

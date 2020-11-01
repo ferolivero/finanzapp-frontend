@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Dimensions, Modal, Button } from 'react-native';
 import FooterAgregar from './components/footerAgregar';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Selector from './components/selector';
@@ -10,6 +10,7 @@ export default function Agregar({ navigation }) {
     const [color, setColor] = useState('rgb(255,0,0)');
     const [tipo, setTipo] = useState('g');
     const [fecha, setFecha] = useState(new Date(Date.now()));
+    const [categoria, setCategoria] = useState("Comida");
 
     useEffect(() => {
         if (tipo === 'i') {
@@ -35,6 +36,8 @@ export default function Agregar({ navigation }) {
         ocultarDatePicker();
     };
 
+    const [modalVisible, setModalVisible] = useState(false);
+
 
     return (
         <View style={styles.container}>
@@ -43,11 +46,10 @@ export default function Agregar({ navigation }) {
                     onPressAction={setTipo}
                     color={color}
                 />
-                
                 <Text>Monto</Text>
-                <TextInput style={{borderWidth: 1}} />
+                <TextInput style={{ borderWidth: 1 }} />
                 <Text>Descripcion</Text>
-                <TextInput style={{borderWidth: 1}} />
+                <TextInput style={{ borderWidth: 1 }} />
                 <Text>Fecha</Text>
                 <View style={styles.row}>
                     <Text style={styles.rowItem80}>{fecha.toDateString()}</Text>
@@ -65,9 +67,41 @@ export default function Agregar({ navigation }) {
                         confirmTextIOS='Seleccionar'
                     />
                 </View>
+                <Text>Categoría</Text>
+                <View style={styles.row}>
+                    <Text style={styles.rowItem80}>{categoria}</Text>
+                    <TouchableOpacity style={styles.rowItem20} onPress={() => {
+                        setModalVisible(true)
+                    }}>
+                        <Text>Editar</Text>
+                    </TouchableOpacity>
+                    <Modal style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: 0
+                    }}
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(true);
+                        }}>
+                        <View style={styles.modalView}>
+                            <Text>Modal</Text>
+                            <Button title={"chau"}
+                                onPress={() => {
+                                    setModalVisible(!modalVisible);
+                                }}
+                            />
+                        </View>
+                    </Modal>
+                </View>
+                <View style={styles.row}>
+                    <Button title="Guardar"/>
+                    <Button title="Borrar"/>
+                </View>
             </View>
             <FooterAgregar navigation={navigation} />
-            <StatusBar style="auto" />
         </View>
     );
 }
@@ -93,24 +127,34 @@ const styles = StyleSheet.create({
     },
     rowItem80: {
         flexDirection: 'column',
-        borderWidth:1,
+        borderWidth: 1,
         flex: 4
     },
     rowItem20: {
         flexDirection: 'column',
-        borderWidth:1,
+        borderWidth: 1,
         flex: 1
     },
     txt20: {
         textAlign: 'center',
         fontSize: 25,
     },
-    centro: {
-        width: 40,
-        height: 40,
-        backgroundColor: 'rgb(255,0,0)',
-        borderTopRightRadius: 15,
-        borderBottomRightRadius: 15
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        position: 'absolute',
+        bottom: 0,
+        width: fullWidth - 40
     }
-
 });

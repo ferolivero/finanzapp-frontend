@@ -1,7 +1,7 @@
 import React from 'react';
 import BotoneraFooter from '../../../global-components/footer';
 
-export default function BotoneraFooterAgregar({navigation}) {
+export default function FooterAgregar({navigation}) {
 
     return (
         <BotoneraFooter txtLeft="I"
