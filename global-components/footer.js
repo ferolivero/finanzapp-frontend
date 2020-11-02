@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1
     },
     footerWrapper: { 
-        alignItems: 'flex-start',
+        alignItems: 'center',
         flexDirection:'row',
         justifyContent: 'flex-end',
       },

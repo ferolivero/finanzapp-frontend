@@ -15,8 +15,8 @@ export default function Selector({ onPressAction, color }) {
             backgroundColor={'#D3D3D3'}
             hasPadding
             options={[
-                { label: "Gasto", value: "g" },
-                { label: "Ingreso", value: "i" }
+                { label: "Gasto", value: "gasto" },
+                { label: "Ingreso", value: "ingreso" }
             ]}
         />
     );
