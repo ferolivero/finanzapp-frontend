@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+let fullWidth = Dimensions.get('window').width - 40; //full width
 
 export default function MovRow({ fecha, monto }) {
 
@@ -20,12 +21,7 @@ export default function MovRow({ fecha, monto }) {
 
 const styles = StyleSheet.create({
     rowWrapper: {
-        // flexWrap: 'wrap',
-        // alignItems: 'flex-start',
-        // flexDirection: 'row',
-        // //justifyContent: 'space-between',
-        width: 290,
-        // flex: 1
+        width: fullWidth,
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -34,12 +30,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     rowWrapper2: {
-        // flexWrap: 'wrap',
-        // alignItems: 'flex-start',
-        // flexDirection: 'row',
-        // //justifyContent: 'space-between',
-        width: 290,
-        // flex: 1
+        width: fullWidth,
         flex: 1,
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
