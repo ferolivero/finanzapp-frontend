@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, Modal, Button, Picker } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Dimensions, Modal, Button } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 let fullWidth = Dimensions.get('window').width;
 
-export default function ModalCategorias({ categoria, setCategoria, modalVisible, setModalVisible }) {
-
-    const [categoriaModal, setCategoriaModal] = useState(categoria);
+export default function ModalFecha({ fecha, setFecha, modalVisible, setModalVisible }) {
+    const [fechaModal, setFechaModal] = useState(fecha);
 
     useEffect(() => {
-        setCategoriaModal(categoria);
-      }, [categoria])
+        setFechaModal(fecha);
+      }, [fecha]);
 
     const seleccionar = () => {
-        setCategoria(categoriaModal);
+        setFecha(fechaModal);
         setModalVisible(false);
     }
 
     const cancelar = () => {
         setModalVisible(!modalVisible);
-        setCategoriaModal(categoria);
+        setFechaModal(fecha);
         setModalVisible(false);
     }
 
-    let categorias = [{key: 1, value: "Comida"}, {key: 2, value: "Bebida"}, {key: 3, value: "Vivienda"}, {key: 4, value: "Otros"}];
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || fechaModal;
+        setFechaModal(currentDate);
+    }
 
     return (
         <View>
@@ -34,20 +37,18 @@ export default function ModalCategorias({ categoria, setCategoria, modalVisible,
             >
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
-                        <Text style={styles.modalHeaderTxt}>Categorías</Text>
+                        <Text style={styles.modalHeaderTxt}>Fecha</Text>
                     </View>
-                    <Picker
-                        selectedValue={categoriaModal}
-                        style={styles.modalPicker}
-                        onValueChange={(itemValue) =>
-                            setCategoriaModal(itemValue)
-                        }>
-                        {
-                            categorias.map(item => (
-                                <Picker.Item key={item.key} label={item.value} value={item.value} />
-                            ))
-                        }
-                    </Picker>
+                    <View>
+                        <DateTimePicker style={styles.modalPicker}
+                            testID="dateTimePicker"
+                            value={fechaModal}
+                            mode='date'
+                            is24Hour={true}
+                            display="default"
+                            onChange={onChange}
+                        />
+                    </View>
                     <View style={styles.row}>
                         <Button title="Seleccionar" onPress={seleccionar} />
                         <Button title="Cancelar" onPress={cancelar} />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Dimensions, Button, Picker, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FooterAgregar from './components/footerAgregar';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Selector from './components/selector';
 import ModalCategorias from './components/modalCategorias';
+import ModalFecha from './components/modalFecha';
 
 let fullWidth = Dimensions.get('window').width; //full width
 
@@ -17,30 +17,16 @@ export default function Agregar({ navigation }) {
 
 
     useEffect(() => {
-        if (tipo === 'i') {
+        if (tipo === 'ingreso') {
             setColor('rgb(0,125,0)')
         } else {
             setColor('rgb(255,0,0)')
         }
     }, [tipo])
 
+    const [modalCategoriasVisible, setModalCategoriasVisible] = useState(false);
+    const [modalFechaVisible, setModalFechaVisible] = useState(false);
 
-    const [datePickerVisible, setDatePickerVisible] = useState(false);
-
-    const mostrarDatePicker = () => {
-        setDatePickerVisible(true);
-    };
-
-    const ocultarDatePicker = () => {
-        setDatePickerVisible(false);
-    };
-
-    const confirmarFecha = date => {
-        setFecha(date);
-        ocultarDatePicker();
-    };
-
-    const [modalVisible, setModalVisible] = useState(false);
     const borrar = () => {
         setFecha(new Date(Date.now()));
         setCategoria('Otros');
@@ -79,36 +65,31 @@ export default function Agregar({ navigation }) {
                         <View style={styles.rowItem80}>
                             <Text style={styles.inputTxt}>{fecha.toDateString()}</Text>
                         </View>
-                        <TouchableOpacity style={styles.rowItem20} onPress={mostrarDatePicker}>
+                        <TouchableOpacity style={styles.rowItem20} onPress={() => setModalFechaVisible(true)}>
                             <Text style={styles.inputTxt}>Edit</Text>
                         </TouchableOpacity>
-                        <DateTimePickerModal
-                            isVisible={datePickerVisible}
-                            mode="date"
-                            onConfirm={confirmarFecha}
-                            onCancel={ocultarDatePicker}
-                            isDarkModeEnabled={false}
-                            headerTextIOS='Fecha'
-                            cancelTextIOS='Cancelar'
-                            confirmTextIOS='Seleccionar'
-                        />
+                        <ModalFecha
+                            fecha={fecha}
+                            setFecha={setFecha}
+                            modalVisible={modalFechaVisible}
+                            setModalVisible={setModalFechaVisible} />
                     </View>
                     <Text>Categoría</Text>
                     <View style={styles.row}>
                         <View style={styles.rowItem80}>
-
-                            <Text style={styles.inputTxt}>{categoria}</Text></View>
+                            <Text style={styles.inputTxt}>{categoria}</Text>
+                        </View>
                         <TouchableOpacity
                             style={styles.rowItem20}
-                            onPress={() => { setModalVisible(true) }}
+                            onPress={() => { setModalCategoriasVisible(true) }}
                         >
-                            <Text style={styles.inputTxt}>Edit</Text>
+                            <   Text style={styles.inputTxt}>Edit</Text>
                         </TouchableOpacity>
                         <ModalCategorias
                             categoria={categoria}
                             setCategoria={setCategoria}
-                            modalVisible={modalVisible}
-                            setModalVisible={setModalVisible} />
+                            modalVisible={modalCategoriasVisible}
+                            setModalVisible={setModalCategoriasVisible} />
                     </View>
                     <View style={styles.row}>
                         <Button title="Guardar" onPress={guardar} />
