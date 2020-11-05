@@ -19,7 +19,7 @@ export default function Home({ navigation }) {
                 <FlatList style={styles.flatlist}
                     data={movimientos.slice(0,17)}
                     renderItem={renderItem}
-                    keyExtractor={item => item.__id.toString()}
+                    keyExtractor={item => item.__id}
                 />
                 <Button title="Ver más" onPress={() => { navigation.navigate('Movimientos') }} />
             </View>
