@@ -11,11 +11,6 @@ export default function Header({ txt }) {
 
 const styles = StyleSheet.create({
     headerWrapper: {
-        // flexWrap: 'wrap',
-        // alignItems: 'flex-start',
-        // flexDirection: 'row',
-        // position: 'absolute',
-        // top: 0,
         fontSize: 30
     },
 });

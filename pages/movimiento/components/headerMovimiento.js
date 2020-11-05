@@ -1,9 +1,9 @@
 import React from 'react';
 import Header from '../../../global-components/header';
 
-export default function HeaderAgregar() {
+export default function HeaderMovimiento() {
 
     return (
-        <Header txt="Agregar" />
+        <Header txt="Movimiento" />
     );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 let fullWidth = Dimensions.get('window').width - 40; //full width
 
-export default function MovRow({ fecha, monto, categoria }) {
+export default function MovRow({ id, fecha, monto, categoria, navigation }) {
 
     let rowColor = (monto > 0) ? 'rgb(0,128,0)' : 'rgb(255,0,0)';
 
@@ -20,7 +20,7 @@ export default function MovRow({ fecha, monto, categoria }) {
         <View style={styles.col}><Text style={{ textAlign: 'left', fontSize: 20, color: rowColor, flex: 1 }}>{categoria}</Text></View>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
-            <TouchableOpacity style={styles.btnEdit}>
+            <TouchableOpacity style={styles.btnEdit} onPress={()=>navigation.navigate('Movimiento', {id: id.toString()})}>
                 <Text style={{ textAlign: 'left', fontSize: 20, color: '#ffffff', flex: 1 }}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnBorrar}>
