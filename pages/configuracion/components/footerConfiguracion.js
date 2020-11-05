@@ -1,7 +1,7 @@
 import React from 'react';
 import BotoneraFooter from '../../../global-components/footer';
 
-export default function FooterMovimientos({navigation}) {
+export default function FooterConfiguracion({navigation}) {
 
     return (
         <BotoneraFooter
@@ -9,7 +9,7 @@ export default function FooterMovimientos({navigation}) {
             onPressLeft={() => { navigation.navigate('Informes') }}
             imgCenter={require('../../../assets/btnHome.png')}
             onPressCenter={() => { navigation.navigate('Home') }}
-            txtRight="C"
-            onPressRight={() => { navigation.navigate('Configuración') }}/>
+            txtRight="Movs"
+            onPressRight={() => { navigation.navigate('Movimientos') }}/>
     );
 }
