@@ -11,38 +11,40 @@ let fullWidth = Dimensions.get('window').width; //full width
 
 export default function Movimiento({ navigation, route }) {
 
-    const id = (route.params) ? route.params.id : null;
-    let opciones = {disabled: Boolean(id)};
-    
-    if (id) {
-        opciones.movimiento = { _id: route.params.id, tipo: 'ingreso', monto: 200, descripcion: 'Chocolate', fecha: new Date(Date.now()), categoria: 'Comida' }
-        opciones.subtitulo = "Editar";
-        opciones.label2 = "Restablecer";
-        opciones.reset = () => {
-            setFecha(opciones.movimiento.fecha);
-            setCategoria(opciones.movimiento.categoria);
-            setMonto(opciones.movimiento.monto)
-            setDescripcion(opciones.movimiento.descripcion)
-        }
-    } else {
-        opciones.movimiento = { _id: null, tipo: 'gasto', monto: '', descripcion: '', fecha: new Date(Date.now()), categoria: 'Otros' }
-        opciones.subtitulo = "Agregar";
-        opciones.label2 = "Borrar";
-        opciones.reset = () => {
-            setFecha(new Date(Date.now()));
-            setCategoria('Otros');
-            setMonto('')
-            setDescripcion('')
-        }
-    }
-
     const [color, setColor] = useState('');
-    const [tipo, setTipo] = useState(opciones.movimiento.tipo);
+    const [tipo, setTipo] = useState('gasto');
     const [monto, setMonto] = useState(opciones.movimiento.monto);
     const [descripcion, setDescripcion] = useState(opciones.movimiento.descripcion);
     const [fecha, setFecha] = useState(opciones.movimiento.fecha);
     const [categoria, setCategoria] = useState(opciones.movimiento.categoria);
 
+    useEffect(()=>{
+        const id = (route.params) ? route.params.id : null;
+        let opciones = {disabled: Boolean(id)};
+        
+        if (id) {
+            opciones.movimiento = { _id: route.params.id, tipo: 'ingreso', monto: 200, descripcion: 'Chocolate', fecha: new Date(Date.now()), categoria: 'Comida' }
+            opciones.subtitulo = "Editar";
+            opciones.label2 = "Restablecer";
+            opciones.reset = () => {
+                setFecha(opciones.movimiento.fecha);
+                setCategoria(opciones.movimiento.categoria);
+                setMonto(opciones.movimiento.monto)
+                setDescripcion(opciones.movimiento.descripcion)
+            }
+            opciones.reset();
+        } else {
+            opciones.movimiento = { _id: null, tipo: 'gasto', monto: '', descripcion: '', fecha: new Date(Date.now()), categoria: 'Otros' }
+            opciones.subtitulo = "Agregar";
+            opciones.label2 = "Borrar";
+            opciones.reset = () => {
+                setFecha(new Date(Date.now()));
+                setCategoria('Otros');
+                setMonto('')
+                setDescripcion('')
+            }
+        }
+    }, []);
 
     useEffect(() => {
         if (tipo === 'ingreso') {
