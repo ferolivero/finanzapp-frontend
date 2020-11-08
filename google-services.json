@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "640694649602",
+    "firebase_url": "https://finanzapp-26e3c.firebaseio.com",
+    "project_id": "finanzapp-26e3c",
+    "storage_bucket": "finanzapp-26e3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640694649602:android:132102da56d3ac73ff781b",
+        "android_client_info": {
+          "package_name": "ar.com.finanzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640694649602-sgim43e3dgsjt6iri4r5s13eim9a8af1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ar.com.finanzapp",
+            "certificate_hash": "2f1580cc5f8d80d7793840c5a708e0b428621d16"
+          }
+        },
+        {
+          "client_id": "640694649602-f8c1cq1n6bv1rsrshlq6k16h1ovbkrun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUfTwIVtRjVBj9eyk9L2u2Dz5MURiV4tU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640694649602-f8c1cq1n6bv1rsrshlq6k16h1ovbkrun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,22 +1,40 @@
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import Home from './pages/home/home.js';
 import Agregar from './pages/movimiento/agregar.js';
 import Editar from './pages/movimiento/editar.js';
 import Movimientos from './pages/movimientos/movimientos.js';
 import Informes from './pages/informes/informes.js';
 import Configuracion from './pages/configuracion/configuracion.js';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
 
+
+import LoginScreen from './pages/Login/Login.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
+  const [logged, setLogged] = useState(false);
+
+  const onLoginSuccess = (loggedUser) => { 
+    console.log('Login Success', loggedUser);
+    setLogged(true);
+  }
+
   return (
+    <>
+    {
+      (!logged) ? <>
+          <StatusBar style="auto" />
+          <Text>Por favor para continuar inicia sesion.</Text>
+          <LoginScreen onLoginSuccess={onLoginSuccess}></LoginScreen>
+        </>
+    : 
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -47,5 +65,7 @@ export default function App() {
     //         <Stack.Screen options={{headerTitle: props => <HeaderConfiguracion />, headerLeft: null}} name="Configuración" component={Configuracion}/>
     //     </Stack.Navigator>
     // </NavigationContainer>
+    }
+    </>
   );
 }
