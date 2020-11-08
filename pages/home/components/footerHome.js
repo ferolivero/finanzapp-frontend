@@ -1,15 +1,16 @@
 import React from 'react';
 import BotoneraFooter from '../../../global-components/footer';
 
-export default function BotoneraFooterHome({navigation}) {
+export default function FooterHome({navigation}) {
 
     return (
-        <BotoneraFooter txtLeft="I"
-            onPressLeft={() => { console.log("Informes") }}
-            imgCenter={require('./btnAgregar.png')}
-            onPressCenter={() => { navigation.navigate('Agregar') }}
+        <BotoneraFooter
+            txtLeft="I"
+            onPressLeft={() => { navigation.navigate('Informes') }}
+            imgCenter={require('../../../assets/btnAgregar.png')}
+            onPressCenter={() => { navigation.navigate('Movimiento') }}
             txtRight="C"
-            onPressRight={() => { console.log("Config") }} />
+            onPressRight={() => { navigation.navigate('Configuración') }} />
 
     );
 }
