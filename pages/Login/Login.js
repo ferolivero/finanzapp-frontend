@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import * as Google from 'expo-google-app-auth';
+let fullWidth = Dimensions.get('window').width - 40; //full width
 
 async function signInWithGoogleAsync(onLoginSuccess) {
   console.log("Inicia logueo... ")
@@ -50,20 +51,21 @@ const styles = StyleSheet.create({
   buttonImageIconStyle: {
     padding: 10,
     margin: 5,
-    width: 260,
+    width: fullWidth,
     height: 80,
-    resizeMode: 'stretch',
   },
 });
 
-export default function LoginScreen (props){
+export default function LoginScreen(props) {
   console.log(props.onLoginSuccess);
   return (<View style={styles.container}>
+          <Text>Por favor para continuar inicia sesión.</Text>
+
     <TouchableOpacity
       style={styles.buttonGPlusStyle}
       activeOpacity={0.5}
       onPress={() => signInWithGoogleAsync(props.onLoginSuccess)}
-      >
+    >
       <Image
         source={require('./../../assets/btn_google_signin.png')}
         style={styles.buttonImageIconStyle}

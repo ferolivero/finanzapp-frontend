@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 export default function InputTxtBox({label, setValue, value, keyboardType = 'default' }) {
 

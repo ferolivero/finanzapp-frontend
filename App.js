@@ -9,7 +9,6 @@ import Informes from './pages/informes/informes.js';
 import Configuracion from './pages/configuracion/configuracion.js';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Text } from 'react-native';
 
 
 import LoginScreen from './pages/Login/Login.js';
@@ -31,7 +30,6 @@ export default function App() {
     {
       (!logged) ? <>
           <StatusBar style="auto" />
-          <Text>Por favor para continuar inicia sesion.</Text>
           <LoginScreen onLoginSuccess={onLoginSuccess}></LoginScreen>
         </>
     : 
