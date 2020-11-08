@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import FooterHome from './components/footerHome';
 import MovRow from './components/movRow';
-
-
+import HeaderHome from './components/headerHome';
+import Constants from 'expo-constants';
 
 export default function Home({ navigation }) {
 
@@ -13,6 +12,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <HeaderHome />
             <View style={styles.bigContainer}>
                 <Text style={styles.txt20}>Gastos $4543 | Ingresos $4534</Text>
                 <Text style={styles.txt30}>Últimos movimientos</Text>
@@ -23,7 +23,6 @@ export default function Home({ navigation }) {
                 />
                 <Button title="Ver más" onPress={() => { navigation.navigate('Movimientos') }} />
             </View>
-            <FooterHome navigation={navigation} />
         </View>
         
     );
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        marginTop: Constants.statusBarHeight
     },
     bigContainer: {
         flex: 1,

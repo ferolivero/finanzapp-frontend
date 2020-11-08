@@ -1,21 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import FooterConfiguracion from './components/footerConfiguracion';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, Buttom } from 'react-native';
+import HeaderConfiguracion from './components/headerConfiguracion';
+import Constants from 'expo-constants';
 
 export default function Informes({ navigation }) {
 
-    const loguot = () => {
-        console.log("Se borra el JWT del storage");
-        navigation.navigate('Login');
-    };
-
     return (
         <View style={styles.container}>
+            <HeaderConfiguracion />
             <View style={styles.bigContainer}>
                 <Text style={styles.subtitulo}>Acá van las configuraciones</Text>
-                <Buttom onPress={logout}>Cerrar sesión</Buttom>
             </View>
-            <FooterConfiguracion navigation={navigation} />
         </View>
     );
 }
@@ -27,6 +22,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        marginTop: Constants.statusBarHeight
     },
     bigContainer: {
         flex: 1,

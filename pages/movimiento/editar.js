@@ -1,50 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
-import FooterMovimiento from './components/footerMovimiento';
 import Selector from './components/selector';
 import InputModal from './components/inputModal';
 import InputTxtBox from './components/inputTxtBox';
 import Row2Botones from './components/row2Botones';
-
+import HeaderMovimiento from './components/headerMovimiento';
+import Constants from 'expo-constants';
 
 let fullWidth = Dimensions.get('window').width; //full width
+let opsDefault = {
+    disabled: false,
+    movimiento: { _id: null, tipo: 'gasto', monto: '', descripcion: '', fecha: new Date(Date.now()), categoria: 'Otros' },
+    subtitulo: "Agregar",
+    label2: "Borrar"
+}
 
 export default function Movimiento({ navigation, route }) {
-
+    
     const [color, setColor] = useState('');
-    const [tipo, setTipo] = useState('gasto');
-    const [monto, setMonto] = useState(opciones.movimiento.monto);
-    const [descripcion, setDescripcion] = useState(opciones.movimiento.descripcion);
-    const [fecha, setFecha] = useState(opciones.movimiento.fecha);
-    const [categoria, setCategoria] = useState(opciones.movimiento.categoria);
+    const [tipo, setTipo] = useState(opsDefault.movimiento.tipo);
+    const [monto, setMonto] = useState(opsDefault.movimiento.monto);
+    const [descripcion, setDescripcion] = useState(opsDefault.movimiento.descripcion);
+    const [fecha, setFecha] = useState(opsDefault.movimiento.fecha);
+    const [categoria, setCategoria] = useState(opsDefault.movimiento.categoria);
+    const [opciones, setOpciones] = useState(opsDefault);
 
-    useEffect(()=>{
-        const id = (route.params) ? route.params.id : null;
-        let opciones = {disabled: Boolean(id)};
-        
-        if (id) {
-            opciones.movimiento = { _id: route.params.id, tipo: 'ingreso', monto: 200, descripcion: 'Chocolate', fecha: new Date(Date.now()), categoria: 'Comida' }
-            opciones.subtitulo = "Editar";
-            opciones.label2 = "Restablecer";
-            opciones.reset = () => {
-                setFecha(opciones.movimiento.fecha);
-                setCategoria(opciones.movimiento.categoria);
-                setMonto(opciones.movimiento.monto)
-                setDescripcion(opciones.movimiento.descripcion)
-            }
-            opciones.reset();
-        } else {
-            opciones.movimiento = { _id: null, tipo: 'gasto', monto: '', descripcion: '', fecha: new Date(Date.now()), categoria: 'Otros' }
-            opciones.subtitulo = "Agregar";
-            opciones.label2 = "Borrar";
-            opciones.reset = () => {
-                setFecha(new Date(Date.now()));
-                setCategoria('Otros');
-                setMonto('')
-                setDescripcion('')
-            }
-        }
-    }, []);
+
+
+
+
+
+        useEffect(() => {
+            setOpciones({
+                disabled: true,
+                movimiento: { _id: route.params.id, tipo: 'ingreso', monto: route.params.id, descripcion: 'Chocolate', fecha: new Date(Date.now()), categoria: 'Comida' },
+                subtitulo: "Editar",
+                label2: "Restablecer"
+            })
+            console.log(route.params.id)
+            reset()
+        }, [route.params.id])
+
+
 
     useEffect(() => {
         if (tipo === 'ingreso') {
@@ -53,6 +50,7 @@ export default function Movimiento({ navigation, route }) {
             setColor('rgb(255,0,0)')
         }
     }, [tipo])
+
 
     const guardar = () => {
         let mov = {
@@ -66,12 +64,21 @@ export default function Movimiento({ navigation, route }) {
             mov.fechaImputacion = mov.fecha;
             mov.tipoPago = "Contado";
         }
-        console.log(mov);
+        console.log(opciones.movimiento._id);
+        setOpciones(opsDefault)
+    }
+
+    const reset = () => {
+        setMonto(opciones.movimiento.monto);
+        setDescripcion(opciones.movimiento.descripcion);
+        setFecha(opciones.movimiento.fecha);
+        setCategoria(opciones.movimiento.categoria);
     }
 
     return (
-        <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View style={styles.container}>
+                <HeaderMovimiento />
                 <View style={styles.bigContainer}>
                     <Text style={styles.subtitulo}>{opciones.subtitulo}</Text>
                     <Selector onPressAction={setTipo} color={color} posicion={tipo === 'gasto' ? 0 : 1} disabled={opciones.disabled} />
@@ -79,11 +86,10 @@ export default function Movimiento({ navigation, route }) {
                     <InputTxtBox label="Descripción" setValue={setDescripcion} value={descripcion} />
                     <InputModal label="Categoría" value={categoria} setValue={setCategoria} />
                     <InputModal label="Fecha" value={fecha} setValue={setFecha} />
-                    <Row2Botones label1="Guardar" action1={guardar} label2={opciones.label2} action2={opciones.reset} />
+                    <Row2Botones label1="Guardar" action1={guardar} label2={opciones.label2} action2={reset} />
                 </View>
-            </TouchableWithoutFeedback>
-            <FooterMovimiento navigation={navigation} />
-        </View >
+            </View >
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        marginTop: Constants.statusBarHeight
     },
     bigContainer: {
         flex: 1,

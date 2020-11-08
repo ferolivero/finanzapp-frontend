@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
-import FooterMovimientos from './components/footerMovimientos';
+import Constants from 'expo-constants';
 import MovRow from './components/movRow';
+import HeaderMovimientos from './components/headerMovimientos';
 
 
 
@@ -13,6 +14,7 @@ export default function Movimientos({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <HeaderMovimientos />
             <View style={styles.bigContainer}>
                 <FlatList style={styles.flatlist}
                     data={movimientos}
@@ -21,7 +23,6 @@ export default function Movimientos({ navigation }) {
                 />
             </View>
             <Button title="Agregar movimiento" onPress={() => { navigation.navigate('Movimiento') }} />
-            <FooterMovimientos navigation={navigation} />
         </View>
 
     );
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingTop: Constants.statusBarHeight
     },
     bigContainer: {
         flex: 1,

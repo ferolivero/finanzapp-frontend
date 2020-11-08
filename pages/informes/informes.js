@@ -1,15 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import FooterInformes from './components/footerInformes';
+import HeaderInformes from './components/headerInformes';
+import Constants from 'expo-constants';
 
 export default function Informes({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <HeaderInformes />
             <View style={styles.bigContainer}>
                 <Text style={styles.subtitulo}>Acá van los informes. Abajo debería tener algo para elegir los distintos informes</Text>
             </View>
-            <FooterInformes navigation={navigation} />
         </View>
     );
 }
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        marginTop: Constants.statusBarHeight
     },
     bigContainer: {
         flex: 1,

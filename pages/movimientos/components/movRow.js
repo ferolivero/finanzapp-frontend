@@ -20,7 +20,7 @@ export default function MovRow({ id, fecha, monto, categoria, navigation }) {
         <View style={styles.col}><Text style={{ textAlign: 'left', fontSize: 20, color: rowColor, flex: 1 }}>{categoria}</Text></View>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
-            <TouchableOpacity style={styles.btnEdit} onPress={()=>navigation.navigate('Movimiento', {id: id.toString()})}>
+            <TouchableOpacity style={styles.btnEdit} onPress={()=>navigation.navigate('Editar', {id: id.toString()})}>
                 <Text style={{ textAlign: 'left', fontSize: 20, color: '#ffffff', flex: 1 }}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.btnBorrar}>
