@@ -11,12 +11,11 @@ const getAccessToken = async () => {
       const item = JSON.parse(retrievedItem)
       console.log(item)
       const authorization = `Bearer ${item.token}`
-      // We have data!!
       return authorization
     }
     return null
   } catch (error) {
-    // Error retrieving data
+    console.log(error)
   }
 }
 
@@ -60,21 +59,20 @@ apiClient.interceptors.response.use(
       try {
         const value = await getData(tokenStorageKey)
         if (value !== null) {
-          // We have data!!
           AsyncStorage.clear()
-          NavigationService.navigate('AuthStackScreen')
+          // NavigationService.navigate('AuthStackScreen')
         }
       } catch (error) {
-        // Error retrieving data
-        console.log(error, 'logged in client error')
+        console.log(error, 'Error al obtener los datos del Storage')
       }
+      Alert.alert('Acceso denegado.')
     }
     return response
   },
   (error) => {
-    console.log(error, 'error console')
+    console.log(error)
     if (error.response.status === 429) {
-      Alert.alert('Too many requests. Please try again later.')
+      Alert.alert('Demasiados intentos. Por favor volve a intentar luego.')
     }
     return Promise.reject(error)
   }
