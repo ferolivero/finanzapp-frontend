@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
-import Selector from './selector';
+import Selector from '../../../global-components/selector';
 import InputModal from './inputModal';
 import InputTxtBox from './inputTxtBox';
-import Row2Botones from './row2Botones';
+import Row2Botones from '../../../global-components/row2Botones';
 import HeaderMovimiento from './headerMovimiento';
 import Constants from 'expo-constants';
 
@@ -18,7 +18,7 @@ const opEditar = {
     subtitulo: "Editar",
     label2: "Restablecer"
 }
-export default function Formulario({ navigation, movimiento }) {
+export default function Formulario({ movimiento }) {
 
     const [color, setColor] = useState('');
     const [tipo, setTipo] = useState(movimiento.tipo);
