@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import Selector from '../../../global-components/selector';
 import InputModal from './inputModal';
-import InputTxtBox from './inputTxtBox';
+import InputTxtBox from '../../../global-components/inputTxtBox';
 import Row2Botones from '../../../global-components/row2Botones';
 import HeaderMovimiento from './headerMovimiento';
 import Constants from 'expo-constants';

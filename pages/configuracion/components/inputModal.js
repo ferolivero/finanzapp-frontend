@@ -10,7 +10,7 @@ export default function InputModal({ label, value, setValue }) {
             <Text>{label}</Text>
             <View style={styles.row}>
                 <View style={styles.rowItem80}>
-                    <Text style={styles.inputTxt}>{(label === 'Fecha')? value.toDateString(): value}</Text>
+                    <Text style={styles.inputTxt}>{value}</Text>
                 </View>
                 <TouchableOpacity style={styles.rowItem20} onPress={() => setModalVisible(true)}>
                     <Text style={styles.inputTxt}>Edit</Text>

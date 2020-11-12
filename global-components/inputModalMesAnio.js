@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import Modal from './modal';
-export default function InputModal({ label, mes, setMes, anio, setAnio }) {
+import Modal from './modalMesAnio';
+export default function InputModalMesAnio({ label, mes, setMes, anio, setAnio }) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     },
     rowItem80: {
         flexDirection: 'column',
-        flex: 4
+        flex: 4,
+        marginRight: 2
     },
     rowItem20: {
         flexDirection: 'column',
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     },
     inputTxt: {
         borderWidth: 1,
-        fontSize: 25
+        fontSize: 25,
+        paddingLeft: 2
     }
 });

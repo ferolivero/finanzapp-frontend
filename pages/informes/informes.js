@@ -5,7 +5,7 @@ import Selector from "../../global-components/selector";
 import Constants from "expo-constants";
 import GraficoLineal from "./components/graficoLineal";
 import GraficoBarras from "./components/graficoBarras";
-import InputModal from "./components/inputModal";
+import InputModalMesAnio from "../../global-components/inputModalMesAnio";
 
 let fullWidth = Dimensions.get("window").width - 40; //full width
 
@@ -34,7 +34,7 @@ export default function Informes({ navigation }) {
           disabled={false}
         />
         <GraficoLineal tipo={tipo} />
-        <InputModal
+        <InputModalMesAnio
           label="Por categoría"
           mes={mes}
           setMes={setMes}
