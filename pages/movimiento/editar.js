@@ -32,7 +32,7 @@ export default function Editar({ navigation, route }) {
                 <Formulario navigation={navigation} movimiento={mov} />
                 :
                 <View style={styles.container}>
-                    <ActivityIndicator size="small" />
+                    <ActivityIndicator size="large" />
                 </View>
 
         }</>

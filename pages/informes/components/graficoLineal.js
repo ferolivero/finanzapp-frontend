@@ -61,10 +61,5 @@ export default function Informes({ tipo }) {
                 borderRadius: 0
             }}
         />
-
-
-
-
-
     );
 }
