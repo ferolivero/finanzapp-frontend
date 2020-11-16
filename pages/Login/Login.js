@@ -1,35 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
-import * as Google from 'expo-google-app-auth';
+import axios from 'axios'
+import * as Google from 'expo-google-app-auth'
+import React from 'react'
+import { apiConfig } from './../../config/ApiConfig'
+
 let fullWidth = Dimensions.get('window').width - 40; //full width
 
 async function signInWithGoogleAsync(onLoginSuccess) {
-  console.log("Inicia logueo... ")
+  console.log('Inicia logueo... ')
   try {
     const config = {
       // Se tiene que configurar un clientID para una App en iOS (pueden usar esta que estara disponible hasta el 31 de octubre)
       iosClientId: `965440611676-l44ls589vsp17lf9nnok70rgbmcndjhn.apps.googleusercontent.com`,
       // Se tiene que configurar un clientID para una App en Android (pueden usar esta que estara disponible hasta el 31 de octubre)
       androidClientId: `965440611676-st0f6b7mpuc25k6afr2ha1eq8k6oabf0.apps.googleusercontent.com`,
-    };
+    }
 
-    const result = await Google.logInAsync(config);
-    console.log("Result: ", result)
-    // const { type, accessToken } = result;
+    const result = await Google.logInAsync(config)
+    const { type, idToken } = result
 
-    // if (type === 'success') {
-    //   console.log('Inicia el logout');
-    //   /* Log-Out */
-    //   await Google.logOutAsync({ accessToken, ...config });
-    //   /* `accessToken` is now invalid and cannot be used to get data from the Google API with HTTP requests */
-    // }
+    if (type === 'success') {
+      console.log('Inicia el llamado a la api')
+      const params = {
+        method: 'get',
+        url: `${apiConfig.baseUrl}/api/token`,
+        headers: {
+          idToken: idToken,
+        },
+      }
 
-    onLoginSuccess(result);
-    return result;
+      const response = await axios(params)
+      onLoginSuccess(response.data.accessToken)
+    }
   } catch (e) {
-    console.error("Error: ", e)
-    return { error: true };
+    console.error('Error: ', e)
   }
 }
 
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
     width: fullWidth,
     height: 80,
   },
-});
+})
 
 export default function LoginScreen(props) {
   console.log(props.onLoginSuccess);
@@ -73,3 +78,4 @@ export default function LoginScreen(props) {
     </TouchableOpacity>
   </View>)
 }
+
