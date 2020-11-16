@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Modal, Picker } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Row2Botones from './row2Botones';
-import ModalHeader from './modalHeader';
+import Row2Botones from '../../../global-components/row2Botones';
+import ModalHeader from '../../../global-components/modalHeader';
 
 let fullWidth = Dimensions.get('window').width;
 
