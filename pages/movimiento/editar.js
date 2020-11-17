@@ -20,14 +20,6 @@ export default function Editar({ navigation, route }) {
     })
   }
 
-  //   const mov = {
-  //     _id: route.params.id,
-  //     tipo: 'ingreso',
-  //     monto: route.params.id,
-  //     descripcion: 'Chocolate',
-  //     fecha: new Date(Date.now()),
-  //     categoria: 'Comida',
-  //   }
   return (
     <>
       {isReady ? (
