@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ActivityIndicator, Text } from 'react-native'
 import getApiClient from '../../api/ApiClient'
 import Formulario from './components/formulario'
 
@@ -14,7 +14,6 @@ export default function Editar({ navigation, route }) {
   const buscarMovimiento = async (id) => {
     const api = await getApiClient()
     await api.get(`movimiento/${id}`).then((response) => {
-      console.log(response.data)
       setMovimiento(response.data)
       setIsReady(true)
     })
@@ -25,8 +24,9 @@ export default function Editar({ navigation, route }) {
       {isReady ? (
         <Formulario navigation={navigation} movimiento={movimiento} />
       ) : (
-        <View style={styles.container}>
-          <ActivityIndicator size="large" />
+        <View style={styles.loading}>
+          <Text>Cargando</Text>
+          <ActivityIndicator size="large" color="blue" />
         </View>
       )}
     </>
@@ -34,8 +34,15 @@ export default function Editar({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.4,
+    backgroundColor: 'black',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 })
