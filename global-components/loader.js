@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, ActivityIndicator, Text } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 
-export default function Loader({  }) {
+export default function Loader({}) {
   return (
     <View style={styles.loading}>
       <Text>Cargando</Text>

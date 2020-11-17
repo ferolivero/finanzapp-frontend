@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, ActivityIndicator, Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import getApiClient from '../../api/ApiClient'
+import Loader from './../../global-components/loader'
 import Formulario from './components/formulario'
 
 export default function Editar({ navigation, route }) {
-  const [isReady, setIsReady] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [movimiento, setMovimiento] = useState()
 
   useEffect(() => {
@@ -15,19 +16,16 @@ export default function Editar({ navigation, route }) {
     const api = await getApiClient()
     await api.get(`movimiento/${id}`).then((response) => {
       setMovimiento(response.data)
-      setIsReady(true)
+      setLoading(false)
     })
   }
 
   return (
     <>
-      {isReady ? (
+      {!loading ? (
         <Formulario navigation={navigation} movimiento={movimiento} />
       ) : (
-        <View style={styles.loading}>
-          <Text>Cargando</Text>
-          <ActivityIndicator size="large" color="blue" />
-        </View>
+        <Loader></Loader>
       )}
     </>
   )

@@ -2,7 +2,6 @@ import axios from 'axios'
 import * as Google from 'expo-google-app-auth'
 import React, { useState } from 'react'
 import {
-  ActivityIndicator,
   Dimensions,
   Image,
   StyleSheet,
@@ -11,6 +10,7 @@ import {
   View,
 } from 'react-native'
 import { apiConfig } from './../../config/ApiConfig'
+import Loader from './../../global-components/loader'
 
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
@@ -97,10 +97,7 @@ export default function LoginScreen(props) {
   return (
     <>
       {loading ? (
-        <View style={styles.loading}>
-          <Text>Cargando</Text>
-          <ActivityIndicator color="blue" size="large" />
-        </View>
+        <Loader></Loader>
       ) : (
         <View style={styles.container}>
           <Text style={styles.title}>FinanzApp</Text>

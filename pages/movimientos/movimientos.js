@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
 import Constants from 'expo-constants'
-import MovRow from './components/movRow'
-import InputModalMesAnio from '../../global-components/inputModalMesAnio'
-import HeaderMovimientos from './components/headerMovimientos'
+import React, { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
 import getApiClient from '../../api/ApiClient'
+import InputModalMesAnio from '../../global-components/inputModalMesAnio'
+import Loader from './../../global-components/loader'
+import HeaderMovimientos from './components/headerMovimientos'
+import MovRow from './components/movRow'
 
 export default function Movimientos({ navigation }) {
+  const [loading, setLoading] = useState(true)
   const [mes, setMes] = useState('Enero')
   const [anio, setAnio] = useState('2020')
   const [movimientos, setMovimientos] = useState()
@@ -15,6 +17,7 @@ export default function Movimientos({ navigation }) {
     const api = await getApiClient()
     await api.get('movimiento').then((response) => {
       setMovimientos(response.data)
+      setLoading(false)
     })
   }
 
@@ -37,24 +40,30 @@ export default function Movimientos({ navigation }) {
   )
 
   return (
-    <View style={styles.container}>
-      <HeaderMovimientos />
-      <View style={styles.bigContainer}>
-        <InputModalMesAnio
-          label="Mes"
-          mes={mes}
-          setMes={setMes}
-          anio={anio}
-          setAnio={setAnio}
-        />
-        <FlatList
-          style={styles.flatlist}
-          data={movimientos}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-        />
-      </View>
-    </View>
+    <>
+      {!loading ? (
+        <View style={styles.container}>
+          <HeaderMovimientos />
+          <View style={styles.bigContainer}>
+            <InputModalMesAnio
+              label="Mes"
+              mes={mes}
+              setMes={setMes}
+              anio={anio}
+              setAnio={setAnio}
+            />
+            <FlatList
+              style={styles.flatlist}
+              data={movimientos}
+              renderItem={renderItem}
+              keyExtractor={(item) => item._id}
+            />
+          </View>
+        </View>
+      ) : (
+        <Loader></Loader>
+      )}
+    </>
   )
 }
 
