@@ -55,8 +55,9 @@ export default function App() {
       {!isAuthenticated() ? (
         <>
           <StatusBar style="auto" />
-          <Text>Por favor para continuar inicia sesion.</Text>
-          <LoginScreen onLoginSuccess={authenticateUser}></LoginScreen>
+
+          <LoginScreen onLoginSuccess={onLoginSuccess}></LoginScreen>
+
         </>
       ) : (
         <GlobalContext.Provider

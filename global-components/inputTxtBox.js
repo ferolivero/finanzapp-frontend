@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 export default function InputTxtBox({label, setValue, value, keyboardType = 'default' }) {
 
     return (
         <View>
             <Text>{label}</Text>
-            <TextInput style={styles.inputTxt} onChangeText={text => setValue(text)} value={value.toString()} keyboardType={keyboardType} />
+            <TextInput style={styles.inputTxt} onChangeText={text => setValue(text)} value={value} keyboardType={keyboardType} />
         </View>
     );
 }
@@ -14,6 +14,7 @@ export default function InputTxtBox({label, setValue, value, keyboardType = 'def
 const styles = StyleSheet.create({
     inputTxt: {
         borderWidth: 1,
-        fontSize: 25
+        fontSize: 25, 
+        paddingLeft: 2
     }
 });

@@ -8,6 +8,7 @@ import getApiClient from './../../api/ApiClient'
 export default function Home({ navigation }) {
   const [movimientos, setMovimientos] = useState()
 
+
   const getMovimientos = async () => {
     const api = await getApiClient()
     console.log('API', api)
@@ -16,6 +17,10 @@ export default function Home({ navigation }) {
       setMovimientos(response.data)
     })
   }
+
+    
+
+
 
   useEffect(() => {
     getMovimientos()

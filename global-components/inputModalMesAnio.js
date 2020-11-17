@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import Modal from './modal';
-export default function InputModal({ label, value, setValue }) {
-    
+import Modal from './modalMesAnio';
+export default function InputModalMesAnio({ label, mes, setMes, anio, setAnio }) {
+
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -10,15 +10,17 @@ export default function InputModal({ label, value, setValue }) {
             <Text>{label}</Text>
             <View style={styles.row}>
                 <View style={styles.rowItem80}>
-                    <Text style={styles.inputTxt}>{(label === 'Fecha')? value.toDateString(): value}</Text>
+                    <Text style={styles.inputTxt}>{mes} - {anio}</Text>
                 </View>
                 <TouchableOpacity style={styles.rowItem20} onPress={() => setModalVisible(true)}>
                     <Text style={styles.inputTxt}>Edit</Text>
                 </TouchableOpacity>
                 <Modal
                     tipo={label}
-                    value={value}
-                    setValue={setValue}
+                    mes={mes}
+                    setMes={setMes}
+                    anio={anio}
+                    setAnio={setAnio}
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisible} />
             </View>
