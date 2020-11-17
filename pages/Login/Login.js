@@ -1,11 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native'
 import axios from 'axios'
 import * as Google from 'expo-google-app-auth'
 import React from 'react'
 import { apiConfig } from './../../config/ApiConfig'
 
-let fullWidth = Dimensions.get('window').width - 40; //full width
+let fullWidth = Dimensions.get('window').width - 40 //full width
 
 async function signInWithGoogleAsync(onLoginSuccess) {
   console.log('Inicia logueo... ')
@@ -51,7 +58,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#fff',
     borderRadius: 5,
-    margin: 50,
   },
   buttonImageIconStyle: {
     padding: 10,
@@ -59,23 +65,36 @@ const styles = StyleSheet.create({
     width: fullWidth,
     height: 80,
   },
+  title: {
+    fontSize: 30,
+  },
+  subtitle: {
+    fontSize: 20,
+  },
+  text: {
+    fontSize: 15,
+    paddingTop: 60,
+  },
 })
 
 export default function LoginScreen(props) {
-  console.log(props.onLoginSuccess);
-  return (<View style={styles.container}>
-          <Text>Por favor para continuar inicia sesión.</Text>
+  console.log(props.onLoginSuccess)
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>FinanzApp</Text>
+      <Text style={styles.subtitle}>Aplicación de Finanzas Personales</Text>
 
-    <TouchableOpacity
-      style={styles.buttonGPlusStyle}
-      activeOpacity={0.5}
-      onPress={() => signInWithGoogleAsync(props.onLoginSuccess)}
-    >
-      <Image
-        source={require('./../../assets/btn_google_signin.png')}
-        style={styles.buttonImageIconStyle}
-      />
-    </TouchableOpacity>
-  </View>)
+      <Text style={styles.text}>Por favor para continuar inicia sesión.</Text>
+      <TouchableOpacity
+        style={styles.buttonGPlusStyle}
+        activeOpacity={0.5}
+        onPress={() => signInWithGoogleAsync(props.onLoginSuccess)}
+      >
+        <Image
+          source={require('./../../assets/btn_google_signin.png')}
+          style={styles.buttonImageIconStyle}
+        />
+      </TouchableOpacity>
+    </View>
+  )
 }
-
