@@ -56,8 +56,7 @@ export default function App() {
         <>
           <StatusBar style="auto" />
 
-          <LoginScreen onLoginSuccess={onLoginSuccess}></LoginScreen>
-
+          <LoginScreen onLoginSuccess={authenticateUser}></LoginScreen>
         </>
       ) : (
         <GlobalContext.Provider
