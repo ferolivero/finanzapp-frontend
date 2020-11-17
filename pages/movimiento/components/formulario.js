@@ -13,6 +13,7 @@ import InputTxtBox from '../../../global-components/inputTxtBox'
 import Row2Botones from '../../../global-components/row2Botones'
 import HeaderMovimiento from './headerMovimiento'
 import Constants from 'expo-constants'
+import getApiClient from '../../../api/ApiClient'
 
 let fullWidth = Dimensions.get('window').width //full width
 const opAgregar = {
@@ -49,7 +50,7 @@ export default function Formulario(props) {
     }
   }, [tipo])
 
-  const guardar = () => {
+  const guardar = async () => {
     let mov = {
       tipo: tipo,
       monto: parseInt(monto),
@@ -61,7 +62,13 @@ export default function Formulario(props) {
       mov.fechaImputacion = mov.fecha
       mov.tipoPago = 'Contado'
     }
-    setOpciones(opAgregar)
+    // setOpciones(opAgregar)
+
+    const api = await getApiClient()
+    await api
+      .post(`movimiento/${tipo}`, mov)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err))
   }
 
   const reset = () => {

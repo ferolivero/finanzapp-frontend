@@ -40,7 +40,11 @@ function getUrl(config) {
 // Intercept all requests
 apiClient.interceptors.request.use(
   (config) => {
-    console.log(`${config.method.toUpperCase()} - ${getUrl(config)}`)
+    console.log(
+      `%c ${config.method.toUpperCase()} - ${getUrl(config)}:`,
+      'color: #0086b3; font-weight: bold',
+      config
+    )
     return config
   },
   (error) => Promise.reject(error)

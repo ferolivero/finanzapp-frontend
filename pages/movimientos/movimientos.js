@@ -30,6 +30,7 @@ export default function Movimientos({ navigation }) {
       id={item._id}
       fecha={dateFormated(item.fecha)}
       monto={item.monto}
+      descripcion={item.descripcion}
       categoria={item.categoria}
       navigation={navigation}
     />
