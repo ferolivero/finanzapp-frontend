@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
 import HeaderConfiguracion from "./components/headerConfiguracion";
@@ -5,9 +6,10 @@ import InputModal from './components/inputModal';
 import InputTxtBox from './../../global-components/inputTxtBox';
 import Row2Botones from '../../global-components/row2Botones';
 import Constants from "expo-constants";
+
 let fullWidth = Dimensions.get('window').width; //full width
 
-export default function Informes({ route }) {
+export default function Config({ navigation, onLogout }) {
 
     const [user, setUser] = useState({})
     const [nombre, setNombre] = useState('');
@@ -35,6 +37,7 @@ export default function Informes({ route }) {
     <View style={styles.container}>
       <HeaderConfiguracion />
       <View style={styles.bigContainer}>
+
         <Text style={styles.subtitulo}>{`${user._id}`.toUpperCase()}</Text>
         <InputTxtBox label="Nombre" setValue={setNombre} value={nombre} />
         <InputModal
@@ -43,10 +46,11 @@ export default function Informes({ route }) {
           setValue={setMoneda}
         />
         <Row2Botones label1="Guardar" action1={guardar} label2="Restablecer" action2={reset} />
-        <Button title="Cerrar sesión" onPres={()=>{}} />
+        <Button onPress={onLogout} title="Deslogearse"></Button>
       </View>
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({

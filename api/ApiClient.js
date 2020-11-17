@@ -1,16 +1,15 @@
-import AsyncStorage from '@react-native-community/async-storage'
 import axios from 'axios'
 import { Alert } from 'react-native'
-import { getData } from './components/StorageComponent'
+import { clearAllData, getData } from '../components/StorageComponent'
+import { apiConfig } from '../config/ApiConfig'
 const tokenStorageKey = '@app_token'
 
 const getAccessToken = async () => {
   try {
+    console.log('GetAccessToken: ', tokenStorageKey)
     const retrievedItem = await getData(tokenStorageKey)
     if (retrievedItem !== null) {
-      const item = JSON.parse(retrievedItem)
-      console.log(item)
-      const authorization = `Bearer ${item.token}`
+      const authorization = `Bearer ${retrievedItem}`
       return authorization
     }
     return null
@@ -59,7 +58,7 @@ apiClient.interceptors.response.use(
       try {
         const value = await getData(tokenStorageKey)
         if (value !== null) {
-          AsyncStorage.clear()
+          clearAllData()
           // NavigationService.navigate('AuthStackScreen')
         }
       } catch (error) {
