@@ -41,7 +41,7 @@ export default function Home({ navigation }) {
           style={styles.flatlist}
           data={movimientos}
           renderItem={renderItem}
-          keyExtractor={(item) => item.__id}
+          keyExtractor={(item) => item._id}
         />
         <Button
           title="Ver más"
