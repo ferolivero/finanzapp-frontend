@@ -93,7 +93,7 @@ export default function Formulario(props) {
           <InputTxtBox
             label="Monto"
             setValue={setMonto}
-            value={monto}
+            value={monto.toString()}
             keyboardType="numeric"
           />
           <InputTxtBox
