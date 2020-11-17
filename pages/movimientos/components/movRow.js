@@ -17,7 +17,7 @@ export default function MovRow({ id, fecha, monto, categoria, navigation }) {
         </View>
         <View style={styles.rowWrapperDown}>
         <View style={styles.rowWrapperInterior}>
-        <View style={styles.col}><Text style={{ textAlign: 'left', fontSize: 20, color: rowColor, flex: 1 }}>{categoria}</Text></View>
+        <View style={styles.col}><Text style={{ textAlign: 'left', fontSize: 20, color: rowColor, flex: 1 }}>{`Categoría: ${categoria}`}</Text></View>
         </View>
         <View style={{flexDirection: 'row', flexWrap: 'wrap',}}>
             <TouchableOpacity style={styles.btnEdit} onPress={()=>navigation.navigate('Editar', {id: id.toString()})}>
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     },
     btnEdit: {
         borderWidth: 1,
-        borderRadius: 5,
         paddingLeft: 5,
         paddingRight: 5,
         marginBottom: 3,
@@ -72,7 +71,6 @@ const styles = StyleSheet.create({
     },
     btnBorrar: {
         borderWidth: 1,
-        borderRadius: 5,
         paddingLeft: 5,
         paddingRight: 5,
         marginBottom: 3,
