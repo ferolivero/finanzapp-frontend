@@ -1,21 +1,25 @@
 import Constants from 'expo-constants'
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View, Dimensions, Text } from 'react-native'
 import getApiClient from '../../api/ApiClient'
 import InputModalMesAnio from '../../global-components/inputModalMesAnio'
 import Loader from './../../global-components/loader'
 import HeaderMovimientos from './components/headerMovimientos'
 import MovRow from './components/movRow'
+let fullWidth = Dimensions.get('window').width - 40
 
 export default function Movimientos({ navigation }) {
   const [loading, setLoading] = useState(true)
-  const [mes, setMes] = useState('Enero')
+  const [mes, setMes] = useState('11')
   const [anio, setAnio] = useState('2020')
   const [movimientos, setMovimientos] = useState()
-
-  const getMovimientos = async () => {
+  const dateFormated = (fecha) => {
+    return fecha.substring(0, 7)
+  }
+  const mesActual = dateFormated(new Date(Date.now()).toISOString())
+  const getMovimientos = async (mes = mesActual) => {
     const api = await getApiClient()
-    await api.get('movimiento').then((response) => {
+    await api.get(`movimiento/mes/${mes}`).then((response) => {
       setMovimientos(response.data)
       setLoading(false)
     })
@@ -25,12 +29,18 @@ export default function Movimientos({ navigation }) {
     getMovimientos()
   }, [])
 
-  const dateFormated = (fecha) => {
-    return fecha.substring(0, 10)
-  }
+  useEffect(() => {
+    console.log(movimientos)
+  }, [movimientos])
+
+  useEffect(() => {
+    getMovimientos(`${anio}-${mes}`)
+  }, [anio, mes])
+
   const renderItem = ({ item }) => (
     <MovRow
       id={item._id}
+      tipo={item.tipo}
       fecha={dateFormated(item.fecha)}
       monto={item.monto}
       descripcion={item.descripcion}
@@ -74,15 +84,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: Constants.statusBarHeight,
+    marginTop: Constants.statusBarHeight,
   },
   bigContainer: {
     flex: 1,
     padding: 10,
     paddingTop: 0,
+    width: fullWidth
   },
   flatlist: {
     alignSelf: 'center',
+    width: fullWidth
   },
   txt20: {
     textAlign: 'center',

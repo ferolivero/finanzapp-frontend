@@ -6,9 +6,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Text,
+  Button,
 } from 'react-native'
 import Selector from '../../../global-components/selector'
 import InputModal from './inputModal'
+import InputModalFecha from './inputModalFecha'
 import InputTxtBox from '../../../global-components/inputTxtBox'
 import Row2Botones from '../../../global-components/row2Botones'
 import HeaderMovimiento from './headerMovimiento'
@@ -17,14 +19,12 @@ import getApiClient from '../../../api/ApiClient'
 
 let fullWidth = Dimensions.get('window').width //full width
 const opAgregar = {
-  disabled: false,
   subtitulo: 'Agregar',
   label2: 'Borrar',
 }
 const opEditar = {
-  disabled: true,
   subtitulo: 'Editar',
-  label2: 'Restablecer',
+  label2: 'Cancelar',
 }
 export default function Formulario(props) {
   const [color, setColor] = useState('')
@@ -36,11 +36,11 @@ export default function Formulario(props) {
   const [opciones, setOpciones] = useState(opAgregar)
 
   useEffect(() => {
-    console.log(props.movimiento._id)
     if (props.movimiento._id) {
       setOpciones(opEditar)
+      reset()
     }
-  }, [props.movimiento])
+  }, [props.movimiento._id])
 
   useEffect(() => {
     if (tipo === 'ingreso') {
@@ -65,17 +65,31 @@ export default function Formulario(props) {
     // setOpciones(opAgregar)
 
     const api = await getApiClient()
-    await api
+    if (opciones.subtitulo === 'Agregar') {
+      await api
       .post(`movimiento/${tipo}`, mov)
       .then((response) => console.log(response))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err)) 
+    } else {
+      await api
+      .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err)) 
+    }
+    props.navigation.navigate('Home')
   }
 
   const reset = () => {
+    setTipo(props.movimiento.categoria)
     setMonto(props.movimiento.monto)
     setDescripcion(props.movimiento.descripcion)
     setFecha(props.movimiento.fecha)
     setCategoria(props.movimiento.categoria)
+    setTipo(props.movimiento.tipo)
+    if (opciones.subtitulo === 'Editar'){
+      props.navigation.navigate('Movs')
+      
+    }
   }
 
   return (
@@ -84,12 +98,16 @@ export default function Formulario(props) {
         <HeaderMovimiento />
         <View style={styles.bigContainer}>
           <Text style={styles.subtitulo}>{opciones.subtitulo}</Text>
-          <Selector
+          {
+            props.movimiento._id ?
+            <Text style={styles.tipoEditable}>{props.movimiento.tipo.toUpperCase()}</Text>
+            :
+            <Selector
             onPressAction={setTipo}
             color={color}
             posicion={tipo === 'gasto' ? 0 : 1}
-            disabled={opciones.disabled}
           />
+          }
           <InputTxtBox
             label="Monto"
             setValue={setMonto}
@@ -106,7 +124,9 @@ export default function Formulario(props) {
             value={categoria}
             setValue={setCategoria}
           />
-          <InputModal label="Fecha" value={fecha} setValue={setFecha} />
+          <InputModalFecha label="Fecha" fecha={fecha} setFecha={setFecha} />
+
+          {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
           <Row2Botones
             label1="Guardar"
             action1={guardar}
@@ -139,5 +159,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     paddingBottom: 10,
+  },
+  tipoEditable: {
+    fontSize: 25,
+    textAlign: 'center',
+    paddingBottom: 5,
+    paddingTop: 5,
+    borderWidth: 1,
+    borderRadius: 19
   },
 })

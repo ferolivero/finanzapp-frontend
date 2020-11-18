@@ -9,14 +9,14 @@ import {
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
 export default function MovRow({
-  id,
+  id, tipo,
   fecha,
   monto,
   descripcion,
   categoria,
   navigation,
 }) {
-  let rowColor = monto > 0 ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
+  let rowColor = tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
 
   return (
     <View>
