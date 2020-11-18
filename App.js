@@ -73,6 +73,9 @@ export default function App() {
                     }
                   : undefined,
               })}
+              tabBarOptions={{
+                keyboardHidesTabBar: true,
+              }}
             >
               <Tab.Screen name="Home" component={Home} />
               <Tab.Screen name="Movs" component={Movimientos} />

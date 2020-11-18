@@ -6,7 +6,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Text,
-  Button,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native'
 import Selector from '../../../global-components/selector'
 import InputModal from './inputModal'
@@ -67,14 +68,14 @@ export default function Formulario(props) {
     const api = await getApiClient()
     if (opciones.subtitulo === 'Agregar') {
       await api
-      .post(`movimiento/${tipo}`, mov)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err)) 
+        .post(`movimiento/${tipo}`, mov)
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err))
     } else {
       await api
-      .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err)) 
+        .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err))
     }
     props.navigation.navigate('Home')
   }
@@ -86,56 +87,66 @@ export default function Formulario(props) {
     setFecha(props.movimiento.fecha)
     setCategoria(props.movimiento.categoria)
     setTipo(props.movimiento.tipo)
-    if (opciones.subtitulo === 'Editar'){
+    if (opciones.subtitulo === 'Editar') {
       props.navigation.navigate('Movs')
-      
     }
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <HeaderMovimiento />
-        <View style={styles.bigContainer}>
-          <Text style={styles.subtitulo}>{opciones.subtitulo}</Text>
-          {
-            props.movimiento._id ?
-            <Text style={styles.tipoEditable}>{props.movimiento.tipo.toUpperCase()}</Text>
-            :
-            <Selector
-            onPressAction={setTipo}
-            color={color}
-            posicion={tipo === 'gasto' ? 0 : 1}
-          />
-          }
-          <InputTxtBox
-            label="Monto"
-            setValue={setMonto}
-            value={monto.toString()}
-            keyboardType="numeric"
-          />
-          <InputTxtBox
-            label="Descripción"
-            setValue={setDescripcion}
-            value={descripcion}
-          />
-          <InputModal
-            label="Categoría"
-            value={categoria}
-            setValue={setCategoria}
-          />
-          <InputModalFecha label="Fecha" fecha={fecha} setFecha={setFecha} />
-
-          {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
-          <Row2Botones
-            label1="Guardar"
-            action1={guardar}
-            label2={opciones.label2}
-            action2={reset}
-          />
+    <KeyboardAvoidingView
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <HeaderMovimiento />
+          <View style={styles.bigContainer}>
+            <Text style={styles.subtitulo}>{opciones.subtitulo}</Text>
+            <ScrollView>
+              {props.movimiento._id ? (
+                <Text style={styles.tipoEditable}>
+                  {props.movimiento.tipo.toUpperCase()}
+                </Text>
+              ) : (
+                <Selector
+                  onPressAction={setTipo}
+                  color={color}
+                  posicion={tipo === 'gasto' ? 0 : 1}
+                />
+              )}
+              <InputTxtBox
+                label="Monto"
+                setValue={setMonto}
+                value={monto.toString()}
+                keyboardType="numeric"
+              />
+              <InputTxtBox
+                label="Descripción"
+                setValue={setDescripcion}
+                value={descripcion}
+              />
+              <InputModal
+                label="Categoría"
+                value={categoria}
+                setValue={setCategoria}
+              />
+              <InputModalFecha
+                label="Fecha"
+                fecha={fecha}
+                setFecha={setFecha}
+              />
+              {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
+            </ScrollView>
+            <Row2Botones
+                label1="Guardar"
+                action1={guardar}
+                label2={opciones.label2}
+                action2={reset}
+              />
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -166,6 +177,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingTop: 5,
     borderWidth: 1,
-    borderRadius: 19
+    borderRadius: 19,
   },
 })
