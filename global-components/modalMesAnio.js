@@ -14,18 +14,18 @@ export default function ModalMesAnio({
   setModalVisible,
 }) {
   const mesesEsp = [
-    { key: 1, value: "Enero" },
-    { key: 2, value: "Febrero" },
-    { key: 3, value: "Marzo" },
-    { key: 4, value: "Abril" },
-    { key: 5, value: "Mayo" },
-    { key: 6, value: "Junio" },
-    { key: 7, value: "Julio" },
-    { key: 8, value: "Agosto" },
-    { key: 9, value: "Septiembre" },
-    { key: 10, value: "Octubre" },
-    { key: 11, value: "Noviembre" },
-    { key: 12, value: "Diciembre" },
+    { key: '01', value: "Enero" },
+    { key: '02', value: "Febrero" },
+    { key: '03', value: "Marzo" },
+    { key: '04', value: "Abril" },
+    { key: '05', value: "Mayo" },
+    { key: '06', value: "Junio" },
+    { key: '07', value: "Julio" },
+    { key: '08', value: "Agosto" },
+    { key: '09', value: "Septiembre" },
+    { key: '10', value: "Octubre" },
+    { key: '11', value: "Noviembre" },
+    { key: '12', value: "Diciembre" },
   ];
   const [mesModal, setMesModal] = useState(mes);
   const [anioModal, setAnioModal] = useState(anio);
@@ -111,7 +111,7 @@ export default function ModalMesAnio({
                 <Picker.Item
                   key={item.key}
                   label={item.value}
-                  value={item.value}
+                  value={item.key}
                 />
               ))}
             </Picker>
@@ -179,6 +179,6 @@ const styles = StyleSheet.create({
   },
   modalPicker: {
     height: 200,
-    width: fullWidth - 40,
+    width: (fullWidth - 40)/2,
   },
 });
