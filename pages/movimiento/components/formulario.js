@@ -70,7 +70,7 @@ export default function Formulario(props) {
       await api
         .post(`movimiento/${tipo}`, mov)
         .then((response) => console.log(response))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err.response.data))//Meter alert
     } else {
       await api
         .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
