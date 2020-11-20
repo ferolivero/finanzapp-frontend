@@ -7,7 +7,7 @@ import {
   Keyboard,
   Text,
   ScrollView,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Alert
 } from 'react-native'
 import Selector from '../../../global-components/selector'
 import InputModal from './inputModal'
@@ -70,7 +70,7 @@ export default function Formulario(props) {
       await api
         .post(`movimiento/${tipo}`, mov)
         .then((response) => console.log(response))
-        .catch((err) => console.log(err.response.data))//Meter alert
+        .catch((err) => btnAlert(err.response.data))
     } else {
       await api
         .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
@@ -91,6 +91,16 @@ export default function Formulario(props) {
       props.navigation.navigate('Movs')
     }
   }
+
+  const btnAlert = (msj) =>
+  Alert.alert(
+    "Error",
+    msj,
+    [
+      { text: "OK", onPress: () => {}}
+    ],
+    { cancelable: false }
+  );
 
   return (
     <KeyboardAvoidingView
