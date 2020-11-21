@@ -7,12 +7,14 @@ import {
   Keyboard,
   Text,
   ScrollView,
-  KeyboardAvoidingView, Alert
+  KeyboardAvoidingView,
+  Alert,
 } from 'react-native'
 import Selector from '../../../global-components/selector'
 import InputModal from './inputModal'
 import InputModalFecha from './inputModalFecha'
 import InputTxtBox from '../../../global-components/inputTxtBox'
+import InputSwitch from '../../../global-components/inputSwitch'
 import Row2Botones from '../../../global-components/row2Botones'
 import HeaderMovimiento from './headerMovimiento'
 import Constants from 'expo-constants'
@@ -35,6 +37,7 @@ export default function Formulario(props) {
   const [fecha, setFecha] = useState(props.movimiento.fecha)
   const [categoria, setCategoria] = useState(props.movimiento.categoria)
   const [opciones, setOpciones] = useState(opAgregar)
+  const [isRecurrente, setIsRecurrente] = useState(false)
 
   useEffect(() => {
     if (props.movimiento._id) {
@@ -60,23 +63,27 @@ export default function Formulario(props) {
       categoria: categoria,
     }
     if (mov.tipo === 'gasto') {
-      mov.fechaImputacion = mov.fecha
       mov.tipoPago = 'Contado'
+      if (!isRecurrente){
+        mov.fechaImputacion = mov.fecha
+      }
     }
     // setOpciones(opAgregar)
 
     const api = await getApiClient()
+    const movURL = (isRecurrente) ? 'movimiento/recurrente' : 'movimiento'
     if (opciones.subtitulo === 'Agregar') {
       await api
-        .post(`movimiento/${tipo}`, mov)
+        .post(`${movURL}/${tipo}`, mov)
         .then((response) => console.log(response))
         .catch((err) => btnAlert(err.response.data))
     } else {
       await api
-        .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
+        .put(`${movURL}/${tipo}/${props.movimiento._id}`, mov)
         .then((response) => console.log(response))
         .catch((err) => console.log(err))
     }
+    console.log(mov)
     props.navigation.navigate('Home')
   }
 
@@ -98,14 +105,9 @@ export default function Formulario(props) {
   }
 
   const btnAlert = (msj) =>
-  Alert.alert(
-    "Error",
-    msj,
-    [
-      { text: "OK", onPress: () => {}}
-    ],
-    { cancelable: false }
-  );
+    Alert.alert('Error', msj, [{ text: 'OK', onPress: () => {} }], {
+      cancelable: false,
+    })
 
   return (
     <KeyboardAvoidingView
@@ -151,14 +153,19 @@ export default function Formulario(props) {
                 fecha={fecha}
                 setFecha={setFecha}
               />
+              <InputSwitch
+                label="¿Es recurrente?"
+                setValue={setIsRecurrente}
+                value={isRecurrente}
+              />
               {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
             </ScrollView>
             <Row2Botones
-                label1="Guardar"
-                action1={guardar}
-                label2={opciones.label2}
-                action2={reset}
-              />
+              label1="Guardar"
+              action1={guardar}
+              label2={opciones.label2}
+              action2={reset}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>
