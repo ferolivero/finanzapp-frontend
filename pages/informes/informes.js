@@ -12,7 +12,7 @@ let fullWidth = Dimensions.get('window').width - 40 //full width
 export default function Informes({ navigation }) {
   const [tipo, setTipo] = useState('gasto')
   const [color, setColor] = useState('')
-  const [mes, setMes] = useState('Enero')
+  const [mes, setMes] = useState('11')
   const [anio, setAnio] = useState('2020')
 
   useEffect(() => {
@@ -45,7 +45,6 @@ export default function Informes({ navigation }) {
           />
           <GraficoBarras tipo={tipo} mes={mes} anio={anio} />
           </ScrollView>
-
         </View>
       </View>
   )

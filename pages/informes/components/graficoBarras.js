@@ -1,35 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
-import { BarChart } from "react-native-chart-kit";
-let fullWidth = Dimensions.get("window").width - 40; //full width
+import React, { useEffect, useState } from 'react'
+import { Dimensions } from 'react-native'
+import { BarChart } from 'react-native-chart-kit'
+import getApiClient from '../../../api/ApiClient'
+import { useFocusEffect } from '@react-navigation/native'
+
+let fullWidth = Dimensions.get('window').width - 40 //full width
 
 export default function Informes({ tipo, mes, anio }) {
-  //const [data, setData] = useState([])
-
-  useEffect(() => {
-    //traigo la data
-    //setData(data)
-  }, [tipo, mes, anio]);
-
-  const data = {
-    labels: ["Comida", "Vivienda", "Ocio", "Otros"],
+  const [data, setData] = useState({
+    labels: [],
     datasets: [
       {
-        data: [20, 45, 28, 80],
+        data: [],
       },
     ],
-  };
+  })
+
+  useEffect(() => {
+    getData()
+  }, [tipo, mes, anio])
+
+  const getData = async () => {
+    const api = await getApiClient()
+    await api.get(`informe/${tipo}/${anio}-${mes}`).then((response) => {
+      setData(response.data)
+    })
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.debug('screen takes focus')
+      getData()
+      return () => console.debug('screen loses focus')
+    }, [])
+  )
+
   const chartConfig = {
-    backgroundColor: "#ffffff",
-    backgroundGradientFrom: "#ffffff",
-    backgroundGradientTo: "#ffffff",
+    backgroundColor: '#ffffff',
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
     decimalPlaces: 0,
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 0,
     },
-  };
+  }
   return (
     <BarChart
       data={data}
@@ -38,5 +54,5 @@ export default function Informes({ tipo, mes, anio }) {
       yAxisLabel="$"
       chartConfig={chartConfig}
     />
-  );
+  )
 }
