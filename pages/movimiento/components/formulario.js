@@ -80,6 +80,11 @@ export default function Formulario(props) {
     props.navigation.navigate('Home')
   }
 
+  const cambiarTipo = (tipo) => {
+    setCategoria(props.movimiento.categoria)
+    setTipo(tipo)
+  }
+
   const reset = () => {
     setTipo(props.movimiento.categoria)
     setMonto(props.movimiento.monto)
@@ -119,7 +124,7 @@ export default function Formulario(props) {
                 </Text>
               ) : (
                 <Selector
-                  onPressAction={setTipo}
+                  onPressAction={cambiarTipo}
                   color={color}
                   posicion={tipo === 'gasto' ? 0 : 1}
                 />
@@ -136,6 +141,7 @@ export default function Formulario(props) {
                 value={descripcion}
               />
               <InputModal
+                tipo={tipo}
                 label="Categoría"
                 value={categoria}
                 setValue={setCategoria}
