@@ -30,7 +30,6 @@ export default function InputModalMesAnio({ label, mes, setMes, anio, setAnio })
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        flex: 1,
     },
     rowItem80: {
         flexDirection: 'column',

@@ -32,9 +32,6 @@ export default function Movimientos({ navigation }) {
     return () => console.debug("screen loses focus");
   }, []));
 
-  // useEffect(() => {
-  //   // console.log(movimientos)
-  // }, [movimientos])
 
   useEffect(() => {
     getMovimientos(`${anio}-${mes}`)
@@ -42,12 +39,7 @@ export default function Movimientos({ navigation }) {
 
   const renderItem = ({ item }) => (
     <MovRow
-      id={item._id}
-      tipo={item.tipo}
-      fecha={item.fecha.substring(0, 10)}
-      monto={item.monto}
-      descripcion={item.descripcion}
-      categoria={item.categoria}
+      mov={item}
       navigation={navigation}
     />
   )
@@ -98,6 +90,7 @@ const styles = StyleSheet.create({
   flatlist: {
     alignSelf: 'center',
     width: fullWidth,
+    marginTop: 5
   },
   txt20: {
     textAlign: 'center',

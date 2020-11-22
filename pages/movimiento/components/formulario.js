@@ -38,6 +38,8 @@ export default function Formulario(props) {
   const [categoria, setCategoria] = useState(props.movimiento.categoria)
   const [opciones, setOpciones] = useState(opAgregar)
   const [isRecurrente, setIsRecurrente] = useState(false)
+  const [isCuotas, setIsCuotas] = useState(false)
+  const [cuotas, setCuotas] = useState(1)
 
   useEffect(() => {
     if (props.movimiento._id) {
@@ -63,15 +65,18 @@ export default function Formulario(props) {
       categoria: categoria,
     }
     if (mov.tipo === 'gasto') {
-      mov.tipoPago = 'Contado'
-      if (!isRecurrente){
+      if (isCuotas){
+        mov.cuotas = cuotas
+        mov.tipoPago = 'Tarjeta'
+      } else {
+        mov.tipoPago = 'Contado'
+      }
+      if (!isRecurrente) {
         mov.fechaImputacion = mov.fecha
       }
     }
-    // setOpciones(opAgregar)
-
     const api = await getApiClient()
-    const movURL = (isRecurrente) ? 'movimiento/recurrente' : 'movimiento'
+    const movURL = isRecurrente || isCuotas ? 'movimiento/recurrente' : 'movimiento'
     if (opciones.subtitulo === 'Agregar') {
       await api
         .post(`${movURL}/${tipo}`, mov)
@@ -90,6 +95,7 @@ export default function Formulario(props) {
   const cambiarTipo = (tipo) => {
     setCategoria(props.movimiento.categoria)
     setTipo(tipo)
+    setIsCuotas(false)
   }
 
   const reset = () => {
@@ -108,6 +114,16 @@ export default function Formulario(props) {
     Alert.alert('Error', msj, [{ text: 'OK', onPress: () => {} }], {
       cancelable: false,
     })
+
+  useEffect(() => {
+    setCuotas(1)
+  }, [isCuotas])
+
+  useEffect(() => {
+    if (isRecurrente){
+      setIsCuotas(false)
+    }
+  }, [isRecurrente])
 
   return (
     <KeyboardAvoidingView
@@ -131,12 +147,38 @@ export default function Formulario(props) {
                   posicion={tipo === 'gasto' ? 0 : 1}
                 />
               )}
-              <InputTxtBox
-                label="Monto"
-                setValue={setMonto}
-                value={monto.toString()}
-                keyboardType="numeric"
-              />
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                  <InputTxtBox
+                    label="Monto"
+                    setValue={setMonto}
+                    value={monto.toString()}
+                    keyboardType="numeric"
+                  />
+                </View>
+                {isCuotas ? (
+                  <View style={{ flex: 1 }}>
+                    <InputTxtBox
+                      label="Cuotas"
+                      setValue={setCuotas}
+                      value={cuotas.toString()}
+                      keyboardType="numeric"
+                      style={{ flex: 1 }}
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </View>
+              {
+                !isRecurrente && opciones.subtitulo === 'Agregar' && tipo === 'gasto'?  (
+                  <InputSwitch
+                  label="Pagar en cuotas"
+                  setValue={setIsCuotas}
+                  value={isCuotas}
+                />
+                ) : (<></>)
+              }
               <InputTxtBox
                 label="Descripción"
                 setValue={setDescripcion}
@@ -153,12 +195,17 @@ export default function Formulario(props) {
                 fecha={fecha}
                 setFecha={setFecha}
               />
-              <InputSwitch
-                label="¿Es recurrente?"
-                setValue={setIsRecurrente}
-                value={isRecurrente}
-              />
-              {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
+              {
+                !isCuotas && opciones.subtitulo === 'Agregar' ? (
+                  <InputSwitch
+                  label="Repetir todos los meses"
+                  setValue={setIsRecurrente}
+                  value={isRecurrente}
+                />
+                ) : (
+                  <></>
+                )
+              }
             </ScrollView>
             <Row2Botones
               label1="Guardar"
