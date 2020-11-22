@@ -2,17 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, Dimensions, Modal, Picker } from 'react-native'
 import Row2Botones from '../../../global-components/row2Botones'
 import ModalHeader from '../../../global-components/modalHeader'
+import getApiClient from './../../../api/ApiClient'
 
 let fullWidth = Dimensions.get('window').width
 
 export default function ModalPropio({
   tipo,
+  label,
   value,
   setValue,
   modalVisible,
   setModalVisible,
 }) {
   const [valueModal, setValueModal] = useState(value)
+  const [categorias, setCategorias] = useState([])
+
+  useEffect(() => {
+    buscarCategorias()
+  }, [])
+  
+  const buscarCategorias = async () => {
+    const api = await getApiClient()
+    await api.get(`categoria`).then((response) => {
+      setCategorias(response.data)
+    })
+  }
+
 
   useEffect(() => {
     setValueModal(value)
@@ -24,22 +39,25 @@ export default function ModalPropio({
   }
 
   const cancelar = () => {
-    setModalVisible(!modalVisible)
     setValueModal(value)
     setModalVisible(false)
   }
 
+  const getCategorias = () => {
+    console.log()
+    return categorias.filter(x => x.tipo === tipo)
+  }
 
   const onChangeCategorias = (selectedItem) => {
     const currentItem = selectedItem || valueModal
     setValueModal(currentItem)
   }
-  let categorias = [
-    { key: 1, value: 'Comida' },
-    { key: 2, value: 'Bebida' },
-    { key: 3, value: 'Vivienda' },
-    { key: 4, value: 'Otros' },
-  ]
+  // let categorias = [
+  //   { key: 1, value: 'Comida' },
+  //   { key: 2, value: 'Bebida' },
+  //   { key: 3, value: 'Vivienda' },
+  //   { key: 4, value: 'Otros' },
+  // ]
 
   return (
     <View>
@@ -53,17 +71,17 @@ export default function ModalPropio({
         }}
       >
         <View style={styles.modalView}>
-          <ModalHeader texto={tipo} />
+          <ModalHeader texto={label} />
           <Picker
             selectedValue={valueModal}
             style={styles.modalPicker}
             onValueChange={onChangeCategorias}
           >
-            {categorias.map((item) => (
+            {getCategorias().map((item) => (
               <Picker.Item
-                key={item.key}
-                label={item.value}
-                value={item.value}
+                key={item._id}
+                label={item.nombre}
+                value={item.nombre}
               />
             ))}
           </Picker>

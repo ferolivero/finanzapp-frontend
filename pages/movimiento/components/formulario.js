@@ -8,11 +8,13 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native'
 import Selector from '../../../global-components/selector'
 import InputModal from './inputModal'
 import InputModalFecha from './inputModalFecha'
 import InputTxtBox from '../../../global-components/inputTxtBox'
+import InputSwitch from '../../../global-components/inputSwitch'
 import Row2Botones from '../../../global-components/row2Botones'
 import HeaderMovimiento from './headerMovimiento'
 import Constants from 'expo-constants'
@@ -35,6 +37,9 @@ export default function Formulario(props) {
   const [fecha, setFecha] = useState(props.movimiento.fecha)
   const [categoria, setCategoria] = useState(props.movimiento.categoria)
   const [opciones, setOpciones] = useState(opAgregar)
+  const [isRecurrente, setIsRecurrente] = useState(false)
+  const [isCuotas, setIsCuotas] = useState(false)
+  const [cuotas, setCuotas] = useState(1)
 
   useEffect(() => {
     if (props.movimiento._id) {
@@ -60,24 +65,37 @@ export default function Formulario(props) {
       categoria: categoria,
     }
     if (mov.tipo === 'gasto') {
-      mov.fechaImputacion = mov.fecha
-      mov.tipoPago = 'Contado'
+      if (isCuotas){
+        mov.cuotas = cuotas
+        mov.tipoPago = 'Tarjeta'
+      } else {
+        mov.tipoPago = 'Contado'
+      }
+      if (!isRecurrente) {
+        mov.fechaImputacion = mov.fecha
+      }
     }
-    // setOpciones(opAgregar)
-
     const api = await getApiClient()
+    const movURL = isRecurrente || isCuotas ? 'movimiento/recurrente' : 'movimiento'
     if (opciones.subtitulo === 'Agregar') {
       await api
-        .post(`movimiento/${tipo}`, mov)
+        .post(`${movURL}/${tipo}`, mov)
         .then((response) => console.log(response))
-        .catch((err) => console.log(err))
+        .catch((err) => btnAlert(err.response.data))
     } else {
       await api
-        .put(`movimiento/${tipo}/${props.movimiento._id}`, mov)
+        .put(`${movURL}/${tipo}/${props.movimiento._id}`, mov)
         .then((response) => console.log(response))
         .catch((err) => console.log(err))
     }
+    console.log(mov)
     props.navigation.navigate('Home')
+  }
+
+  const cambiarTipo = (tipo) => {
+    setCategoria(props.movimiento.categoria)
+    setTipo(tipo)
+    setIsCuotas(false)
   }
 
   const reset = () => {
@@ -91,6 +109,21 @@ export default function Formulario(props) {
       props.navigation.navigate('Movs')
     }
   }
+
+  const btnAlert = (msj) =>
+    Alert.alert('Error', msj, [{ text: 'OK', onPress: () => {} }], {
+      cancelable: false,
+    })
+
+  useEffect(() => {
+    setCuotas(1)
+  }, [isCuotas])
+
+  useEffect(() => {
+    if (isRecurrente){
+      setIsCuotas(false)
+    }
+  }, [isRecurrente])
 
   return (
     <KeyboardAvoidingView
@@ -109,23 +142,50 @@ export default function Formulario(props) {
                 </Text>
               ) : (
                 <Selector
-                  onPressAction={setTipo}
+                  onPressAction={cambiarTipo}
                   color={color}
                   posicion={tipo === 'gasto' ? 0 : 1}
                 />
               )}
-              <InputTxtBox
-                label="Monto"
-                setValue={setMonto}
-                value={monto.toString()}
-                keyboardType="numeric"
-              />
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                  <InputTxtBox
+                    label="Monto"
+                    setValue={setMonto}
+                    value={monto.toString()}
+                    keyboardType="numeric"
+                  />
+                </View>
+                {isCuotas ? (
+                  <View style={{ flex: 1 }}>
+                    <InputTxtBox
+                      label="Cuotas"
+                      setValue={setCuotas}
+                      value={cuotas.toString()}
+                      keyboardType="numeric"
+                      style={{ flex: 1 }}
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
+              </View>
+              {
+                !isRecurrente && opciones.subtitulo === 'Agregar' && tipo === 'gasto'?  (
+                  <InputSwitch
+                  label="Pagar en cuotas"
+                  setValue={setIsCuotas}
+                  value={isCuotas}
+                />
+                ) : (<></>)
+              }
               <InputTxtBox
                 label="Descripción"
                 setValue={setDescripcion}
                 value={descripcion}
               />
               <InputModal
+                tipo={tipo}
                 label="Categoría"
                 value={categoria}
                 setValue={setCategoria}
@@ -135,14 +195,24 @@ export default function Formulario(props) {
                 fecha={fecha}
                 setFecha={setFecha}
               />
-              {/* <InputModal label="Fecha" value={fecha} setValue={setFecha} /> */}
+              {
+                !isCuotas && opciones.subtitulo === 'Agregar' ? (
+                  <InputSwitch
+                  label="Repetir todos los meses"
+                  setValue={setIsRecurrente}
+                  value={isRecurrente}
+                />
+                ) : (
+                  <></>
+                )
+              }
             </ScrollView>
             <Row2Botones
-                label1="Guardar"
-                action1={guardar}
-                label2={opciones.label2}
-                action2={reset}
-              />
+              label1="Guardar"
+              action1={guardar}
+              label2={opciones.label2}
+              action2={reset}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>

@@ -1,4 +1,5 @@
 import Constants from 'expo-constants'
+import { useFocusEffect } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View, Dimensions, Text } from 'react-native'
 import getApiClient from '../../api/ApiClient'
@@ -25,13 +26,12 @@ export default function Movimientos({ navigation }) {
     })
   }
 
-  useEffect(() => {
-    getMovimientos()
-  }, [])
+  useFocusEffect(React.useCallback(() => {
+    console.debug("screen takes focus");
+    getMovimientos();
+    return () => console.debug("screen loses focus");
+  }, []));
 
-  useEffect(() => {
-    console.log(movimientos)
-  }, [movimientos])
 
   useEffect(() => {
     getMovimientos(`${anio}-${mes}`)
@@ -39,12 +39,7 @@ export default function Movimientos({ navigation }) {
 
   const renderItem = ({ item }) => (
     <MovRow
-      id={item._id}
-      tipo={item.tipo}
-      fecha={dateFormated(item.fecha)}
-      monto={item.monto}
-      descripcion={item.descripcion}
-      categoria={item.categoria}
+      mov={item}
       navigation={navigation}
     />
   )
@@ -90,11 +85,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     paddingTop: 0,
-    width: fullWidth
+    width: fullWidth,
   },
   flatlist: {
     alignSelf: 'center',
-    width: fullWidth
+    width: fullWidth,
+    marginTop: 5
   },
   txt20: {
     textAlign: 'center',

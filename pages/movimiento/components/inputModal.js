@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Modal from './modal'
-export default function InputModal({ label, value, setValue }) {
+export default function InputModal({ tipo, label, value, setValue }) {
   const [modalVisible, setModalVisible] = useState(false)
 
   return (
@@ -15,12 +15,13 @@ export default function InputModal({ label, value, setValue }) {
         </View>
         <TouchableOpacity
           style={styles.rowItem20}
-          onPress={() => setModalVisible(true)}
+          onPress={() => {setModalVisible(true); console.log(modalVisible)}}
         >
           <Text style={styles.inputTxt}>Edit</Text>
         </TouchableOpacity>
         <Modal
-          tipo={label}
+          tipo={tipo}
+          label={label}
           value={value}
           setValue={setValue}
           modalVisible={modalVisible}

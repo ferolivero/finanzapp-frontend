@@ -3,111 +3,53 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   Dimensions,
 } from 'react-native'
+import BtnEditDelete from './btnEditDelete'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function MovRow({
-  id, tipo,
-  fecha,
-  monto,
-  descripcion,
-  categoria,
-  navigation,
-}) {
-  let rowColor = tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
-
+export default function MovRow({ mov, navigation }) {
+  let rowColor = mov.tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
   return (
     <View>
       <View style={styles.rowWrapperUp}>
         <View style={styles.rowWrapperInterior}>
           <View style={styles.col}>
-            <Text
-              style={{
-                textAlign: 'left',
-                fontSize: 20,
-                color: rowColor,
-                flex: 1,
-              }}
-            >
-              {fecha}:
+            <Text style={[styles.txtLeft, { color: rowColor }]}>
+              {mov.fecha.substring(0, 10)}:
             </Text>
           </View>
           <View style={styles.col}>
-            <Text
-              style={{
-                textAlign: 'left',
-                fontSize: 20,
-                color: rowColor,
-                flex: 1,
-                marginLeft: 5,
-              }}
-            >
-              {descripcion}
+            <Text style={[styles.txtRight, { color: rowColor }]}>
+              {mov.descripcion}
             </Text>
           </View>
         </View>
         <View style={styles.col}>
-          <Text
-            style={{
-              textAlign: 'right',
-              fontSize: 20,
-              color: rowColor,
-              flex: 1,
-            }}
-          >
-            {monto}
+          <Text style={[styles.txtRight, { color: rowColor }]}>
+            {mov.monto}
           </Text>
         </View>
         <View style={styles.col}>
-          <Text
-            style={{
-              textAlign: 'right',
-              fontSize: 20,
-              color: rowColor,
-              flex: 1,
-              marginLeft: 5,
-            }}
-          >
-            $
-          </Text>
+          <Text style={[styles.txtRight, { color: rowColor }]}>$</Text>
         </View>
       </View>
       <View style={styles.rowWrapperDown}>
         <View style={styles.rowWrapperInterior}>
           <View style={styles.col}>
             <Text
-              style={{
-                textAlign: 'left',
-                fontSize: 20,
-                color: rowColor,
-                flex: 1,
-              }}
-            >{`Categoría: ${categoria}`}</Text>
+              style={[styles.txtLeft, { color: rowColor }]}
+            >{`Categoría: ${mov.categoria}`}</Text>
           </View>
         </View>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <TouchableOpacity
-            style={styles.btnEdit}
-            onPress={() => navigation.navigate('Editar', { id: id.toString() })}
-          >
+        <View>
+          {mov.cuotaCant ? (
             <Text
-              style={{
-                textAlign: 'left',
-                fontSize: 20,
-                color: '#ffffff',
-                flex: 1,
-              }}
-            >
-              Edit
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnBorrar}>
-            <Text style={{ textAlign: 'right', fontSize: 20, flex: 1 }}>
-              Borrar
-            </Text>
-          </TouchableOpacity>
+              style={[styles.txtRight, { color: rowColor }]}
+            >{`Cuota ${mov.cuotaNum} de ${mov.cuotaCant}`}</Text>
+          ) : (
+            <BtnEditDelete navigation={navigation} id={mov._id.toString()} />
+          )}
         </View>
       </View>
     </View>
@@ -142,19 +84,15 @@ const styles = StyleSheet.create({
   col: {
     flexDirection: 'column',
   },
-  btnEdit: {
-    borderWidth: 1,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginBottom: 3,
-    backgroundColor: 'rgb(0,128,0)',
+  txtRight: {
+    textAlign: 'right',
+    fontSize: 20,
+    flex: 1,
+    marginLeft: 5,
   },
-  btnBorrar: {
-    borderWidth: 1,
-    paddingLeft: 5,
-    paddingRight: 5,
-    marginBottom: 3,
-    marginLeft: 3,
-    backgroundColor: 'rgb(255,0,0)',
+  txtLeft: {
+    textAlign: 'left',
+    fontSize: 20,
+    flex: 1,
   },
 })
