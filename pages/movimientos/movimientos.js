@@ -1,7 +1,14 @@
 import Constants from 'expo-constants'
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, View, Dimensions, Text } from 'react-native'
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  Text,
+  Button,
+} from 'react-native'
 import getApiClient from '../../api/ApiClient'
 import InputModalMesAnio from '../../global-components/inputModalMesAnio'
 import Loader from './../../global-components/loader'
@@ -11,9 +18,11 @@ let fullWidth = Dimensions.get('window').width - 40
 
 export default function Movimientos({ navigation }) {
   const [loading, setLoading] = useState(true)
-  const [mes, setMes] = useState('11')
-  const [anio, setAnio] = useState('2020')
+  const [mes, setMes] = useState(new Date().getMonth() + 1)
+  const [anio, setAnio] = useState(new Date().getFullYear())
   const [movimientos, setMovimientos] = useState()
+  const [allMovements, setAllMovements] = useState(false)
+
   const dateFormated = (fecha) => {
     return fecha.substring(0, 7)
   }
@@ -26,23 +35,45 @@ export default function Movimientos({ navigation }) {
     })
   }
 
-  useFocusEffect(React.useCallback(() => {
-    console.debug("screen takes focus");
-    getMovimientos();
-    return () => console.debug("screen loses focus");
-  }, []));
+  const getMonthMovimientos = async () => {
+    setLoading(true)
+    setAllMovements(false)
+    const api = await getApiClient()
+    await api
+      .get(`movimiento/mes/${anio}-${mes}`)
+      .then((response) => {
+        setMovimientos(response.data)
+        setLoading(false)
+      })
+      .catch((err) => console.log(err.message))
+  }
 
+  const getAllMovimientos = async () => {
+    setLoading(true)
+    setAllMovements(true)
+    const api = await getApiClient()
+    await api.get(`movimiento`).then((response) => {
+      setMovimientos(response.data)
+      setLoading(false)
+    })
+  }
 
-  useEffect(() => {
-    getMovimientos(`${anio}-${mes}`)
-  }, [anio, mes])
-
-  const renderItem = ({ item }) => (
-    <MovRow
-      mov={item}
-      navigation={navigation}
-    />
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Desde useEffect')
+      console.debug('screen takes focus')
+      setAllMovements(false)
+      getMovimientos(`${anio}-${mes}`)
+      return () => console.debug('screen loses focus')
+    }, [anio, mes])
   )
+
+  // useEffect(() => {
+  //   console.log('Desde useEffect')
+  //   if (movimientos) getMovimientos(`${anio}-${mes}`)
+  // }, [anio, mes])
+
+  const renderItem = ({ item }) => <MovRow mov={item} navigation={navigation} />
 
   return (
     <>
@@ -50,13 +81,17 @@ export default function Movimientos({ navigation }) {
         <View style={styles.container}>
           <HeaderMovimientos />
           <View style={styles.bigContainer}>
-            <InputModalMesAnio
-              label="Mes"
-              mes={mes}
-              setMes={setMes}
-              anio={anio}
-              setAnio={setAnio}
-            />
+            {!allMovements ? (
+              <InputModalMesAnio
+                label="Fecha"
+                mes={mes}
+                setMes={setMes}
+                anio={anio}
+                setAnio={setAnio}
+              />
+            ) : (
+              <></>
+            )}
             <FlatList
               style={styles.flatlist}
               data={movimientos}
@@ -64,6 +99,11 @@ export default function Movimientos({ navigation }) {
               keyExtractor={(item) => item._id}
             />
           </View>
+          {!allMovements ? (
+            <Button title="Ver más" onPress={getAllMovimientos} />
+          ) : (
+            <Button title="Ver menos" onPress={getMonthMovimientos} />
+          )}
         </View>
       ) : (
         <Loader></Loader>
@@ -90,7 +130,7 @@ const styles = StyleSheet.create({
   flatlist: {
     alignSelf: 'center',
     width: fullWidth,
-    marginTop: 5
+    marginTop: 5,
   },
   txt20: {
     textAlign: 'center',

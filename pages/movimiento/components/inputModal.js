@@ -8,16 +8,16 @@ export default function InputModal({ tipo, label, value, setValue }) {
     <View>
       <Text>{label}</Text>
       <View style={styles.row}>
-        <View style={styles.rowItem80}>
+        <TouchableOpacity
+          style={styles.rowItem}
+          onPress={() => {
+            setModalVisible(true)
+            console.log(modalVisible)
+          }}
+        >
           <Text style={styles.inputTxt}>
             {label === 'Fecha' ? value : value}
           </Text>
-        </View>
-        <TouchableOpacity
-          style={styles.rowItem20}
-          onPress={() => {setModalVisible(true); console.log(modalVisible)}}
-        >
-          <Text style={styles.inputTxt}>Edit</Text>
         </TouchableOpacity>
         <Modal
           tipo={tipo}
@@ -37,14 +37,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  rowItem80: {
-    flexDirection: 'column',
-    flex: 4,
-    marginRight: 2,
-  },
-  rowItem20: {
+  rowItem: {
     flexDirection: 'column',
     flex: 1,
+    marginRight: 2,
   },
   inputTxt: {
     borderWidth: 1,

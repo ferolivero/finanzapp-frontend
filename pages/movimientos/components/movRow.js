@@ -21,7 +21,7 @@ export default function MovRow({ mov, navigation }) {
           </View>
           <View style={styles.col}>
             <Text style={[styles.txtRight, { color: rowColor }]}>
-              {mov.descripcion}
+              {mov.descripcion.substring(0,13)}
             </Text>
           </View>
         </View>

@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
 export default function InputModalFecha({ label, fecha, setFecha }) {
-  
   const [modalVisible, setModalVisible] = useState(false)
- 
 
   const handleConfirm = (date) => {
-    setFecha(date);
+    setFecha(date)
     setModalVisible(false)
-  };
+  }
 
   const fechaFormated = (fecha) => fecha.substring(0, 10)
 
@@ -17,27 +15,22 @@ export default function InputModalFecha({ label, fecha, setFecha }) {
     <View>
       <Text>{label}</Text>
       <View style={styles.row}>
-        <View style={styles.rowItem80}>
-          <Text style={styles.inputTxt}>
-            {fechaFormated(fecha)}
-          </Text>
-        </View>
         <TouchableOpacity
-          style={styles.rowItem20}
+          style={styles.rowItem80}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={styles.inputTxt}>Edit</Text>
+          <Text style={styles.inputTxt}>{fechaFormated(fecha)}</Text>
         </TouchableOpacity>
         <DateTimePickerModal
-            headerTextIOS={label}
-            isVisible={modalVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={() => setModalVisible(false)}
-            isDarkModeEnabled={false}
-            date={new Date(fecha)}
-            locale="es_AR"
-          />
+          headerTextIOS={label}
+          isVisible={modalVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={() => setModalVisible(false)}
+          isDarkModeEnabled={false}
+          date={new Date(fecha)}
+          locale="es_AR"
+        />
       </View>
     </View>
   )

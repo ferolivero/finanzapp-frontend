@@ -4,14 +4,17 @@ import MovRow from './components/movRow'
 import HeaderHome from './components/headerHome'
 import Constants from 'expo-constants'
 import getApiClient from './../../api/ApiClient'
+import Loader from './../../global-components/loader'
 
 export default function Home({ navigation }) {
+  const [loading, setLoading] = useState(true)
   const [movimientos, setMovimientos] = useState()
 
   const getMovimientos = async () => {
     const api = await getApiClient()
     await api.get('movimiento').then((response) => {
       setMovimientos(response.data)
+      setLoading(false)
     })
   }
 
@@ -32,25 +35,25 @@ export default function Home({ navigation }) {
   )
 
   return (
-    <View style={styles.container}>
-      <HeaderHome />
-      <View style={styles.bigContainer}>
-        <Text style={styles.txt20}>Gastos $4543 | Ingresos $4534</Text>
-        <Text style={styles.txt30}>Últimos movimientos</Text>
-        <FlatList
-          style={styles.flatlist}
-          data={movimientos}
-          renderItem={renderItem}
-          keyExtractor={(item) => item._id}
-        />
-        <Button
-          title="Ver más"
-          onPress={() => {
-            navigation.navigate('Movimientos')
-          }}
-        />
-      </View>
-    </View>
+    <>
+      {!loading ? (
+        <View style={styles.container}>
+          <HeaderHome />
+          <View style={styles.bigContainer}>
+            <Text style={styles.txt20}>Gastos $4543 | Ingresos $4534</Text>
+            <Text style={styles.txt30}>Últimos movimientos</Text>
+            <FlatList
+              style={styles.flatlist}
+              data={movimientos}
+              renderItem={renderItem}
+              keyExtractor={(item) => item._id}
+            />
+          </View>
+        </View>
+      ) : (
+        <Loader></Loader>
+      )}
+    </>
   )
 }
 
