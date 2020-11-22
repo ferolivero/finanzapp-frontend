@@ -8,16 +8,17 @@ export default function InputModal({ tipo, label, value, setValue }) {
     <View>
       <Text>{label}</Text>
       <View style={styles.row}>
-        <View style={styles.rowItem80}>
+        <View style={styles.rowItem80}></View>
+        <TouchableOpacity
+          style={styles.rowItem80}
+          onPress={() => {
+            setModalVisible(true)
+            console.log(modalVisible)
+          }}
+        >
           <Text style={styles.inputTxt}>
             {label === 'Fecha' ? value : value}
           </Text>
-        </View>
-        <TouchableOpacity
-          style={styles.rowItem20}
-          onPress={() => {setModalVisible(true); console.log(modalVisible)}}
-        >
-          <Text style={styles.inputTxt}>Edit</Text>
         </TouchableOpacity>
         <Modal
           tipo={tipo}
