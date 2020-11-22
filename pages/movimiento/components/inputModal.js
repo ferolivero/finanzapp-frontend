@@ -8,9 +8,8 @@ export default function InputModal({ tipo, label, value, setValue }) {
     <View>
       <Text>{label}</Text>
       <View style={styles.row}>
-        <View style={styles.rowItem80}></View>
         <TouchableOpacity
-          style={styles.rowItem80}
+          style={styles.rowItem}
           onPress={() => {
             setModalVisible(true)
             console.log(modalVisible)
@@ -38,14 +37,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
-  rowItem80: {
-    flexDirection: 'column',
-    flex: 4,
-    marginRight: 2,
-  },
-  rowItem20: {
+  rowItem: {
     flexDirection: 'column',
     flex: 1,
+    marginRight: 2,
   },
   inputTxt: {
     borderWidth: 1,

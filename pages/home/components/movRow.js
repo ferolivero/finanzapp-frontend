@@ -30,7 +30,7 @@ export default function MovRow({ fecha, monto, descripcion }) {
               marginLeft: 5,
             }}
           >
-            {descripcion}
+            {descripcion.substring(0,13)}
           </Text>
         </View>
       </View>
