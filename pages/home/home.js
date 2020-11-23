@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import { StyleSheet, Text, View, FlatList } from 'react-native'
 import MovRow from './components/movRow'
 import HeaderHome from './components/headerHome'
 import Constants from 'expo-constants'
@@ -18,9 +19,18 @@ export default function Home({ navigation }) {
     })
   }
 
-  useEffect(() => {
-    getMovimientos()
-  }, [])
+  // useEffect(() => {
+  //   getMovimientos()
+  // }, [])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Desde useEffect')
+      console.debug('home takes focus')
+      getMovimientos()
+      return () => console.debug('home loses focus')
+    }, [])
+  )
 
   const dateFormated = (fecha) => {
     return fecha.substring(0, 10)
@@ -30,6 +40,7 @@ export default function Home({ navigation }) {
     <MovRow
       fecha={dateFormated(item.fecha)}
       monto={item.monto}
+      tipo={item.tipo}
       descripcion={item.descripcion}
     />
   )

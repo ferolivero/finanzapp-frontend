@@ -2,8 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function MovRow({ fecha, monto, descripcion }) {
-  let rowColor = monto > 0 ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
+export default function MovRow({ fecha, monto, tipo, descripcion }) {
+  let rowColor = tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
 
   return (
     <View style={styles.rowWrapper}>

@@ -58,6 +58,14 @@ export default function Movimientos({ navigation }) {
     })
   }
 
+  const onDeleteSuccess = () => {
+    if (allMovements) {
+      getAllMovimientos()
+    } else {
+      getMonthMovimientos()
+    }
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       console.log('Desde useEffect')
@@ -73,7 +81,7 @@ export default function Movimientos({ navigation }) {
   //   if (movimientos) getMovimientos(`${anio}-${mes}`)
   // }, [anio, mes])
 
-  const renderItem = ({ item }) => <MovRow mov={item} navigation={navigation} />
+  const renderItem = ({ item }) => <MovRow mov={item} onDeleteSuccess={onDeleteSuccess} navigation={navigation} />
 
   return (
     <>

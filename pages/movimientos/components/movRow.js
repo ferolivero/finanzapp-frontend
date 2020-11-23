@@ -8,7 +8,7 @@ import {
 import BtnEditDelete from './btnEditDelete'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function MovRow({ mov, navigation }) {
+export default function MovRow({ mov, onDeleteSuccess, navigation }) {
   let rowColor = mov.tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
   return (
     <View>
@@ -48,7 +48,7 @@ export default function MovRow({ mov, navigation }) {
               style={[styles.txtRight, { color: rowColor }]}
             >{`Cuota ${mov.cuotaNum} de ${mov.cuotaCant}`}</Text>
           ) : (
-            <BtnEditDelete navigation={navigation} id={mov._id.toString()} />
+            <BtnEditDelete navigation={navigation} id={mov._id.toString()} tipo={mov.tipo} onDeleteSuccess={onDeleteSuccess} />
           )}
         </View>
       </View>
