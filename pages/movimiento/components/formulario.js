@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 import {
   StyleSheet,
   View,
@@ -41,12 +42,25 @@ export default function Formulario(props) {
   const [isCuotas, setIsCuotas] = useState(false)
   const [cuotas, setCuotas] = useState(1)
 
-  useEffect(() => {
-    if (props.movimiento._id) {
-      setOpciones(opEditar)
+  // useEffect(() => {
+  //   if (props.movimiento._id) {
+  //     setOpciones(opEditar)
+  //     reset()
+  //   }
+  // }, [props.movimiento._id])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Desde useEffect form')
+      if (props.movimiento._id) {
+        setOpciones(opEditar)
+      }
       reset()
-    }
-  }, [props.movimiento._id])
+      console.log(tipo)
+      return () => console.debug('form loses focus')
+    }, [props.movimiento._id])
+  )
+
 
   useEffect(() => {
     if (tipo === 'ingreso') {
