@@ -12,8 +12,8 @@ let fullWidth = Dimensions.get('window').width - 40 //full width
 export default function Informes({ navigation }) {
   const [tipo, setTipo] = useState('gasto')
   const [color, setColor] = useState('')
-  const [mes, setMes] = useState('11')
-  const [anio, setAnio] = useState('2020')
+  const [mes, setMes] = useState(new Date().getMonth() + 1)
+  const [anio, setAnio] = useState(new Date().getFullYear())
 
   useEffect(() => {
     if (tipo === 'ingreso') {
