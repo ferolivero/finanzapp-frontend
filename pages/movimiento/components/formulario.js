@@ -45,8 +45,9 @@ export default function Formulario(props) {
   // useEffect(() => {
   //   if (props.movimiento._id) {
   //     setOpciones(opEditar)
-  //     reset()
   //   }
+  //   reset()
+  //   console.log(fecha)
   // }, [props.movimiento._id])
 
   useFocusEffect(
@@ -56,7 +57,6 @@ export default function Formulario(props) {
         setOpciones(opEditar)
       }
       reset()
-      console.log(tipo)
       return () => console.debug('form loses focus')
     }, [props.movimiento._id])
   )

@@ -29,7 +29,9 @@ export default function Editar({ navigation, route }) {
   const buscarMovimiento = async (id) => {
     const api = await getApiClient()
     await api.get(`movimiento/${id}`).then((response) => {
-      setMovimiento(response.data)
+      let mov = response.data
+      mov.fecha = new Date(mov.fecha)
+      setMovimiento(mov)
       setLoading(false)
     })
   }
