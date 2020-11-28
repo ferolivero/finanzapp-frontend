@@ -156,7 +156,7 @@ export default function Formulario(props) {
             <ScrollView>
               {props.movimiento._id ? (
                 <Text style={styles.tipoEditable}>
-                  {props.movimiento.tipo.toUpperCase()}
+                  {`${props.movimiento.tipo.toUpperCase()}${isRecurrente ? " RECURRENTE" : ""}`}
                 </Text>
               ) : (
                 <Selector
