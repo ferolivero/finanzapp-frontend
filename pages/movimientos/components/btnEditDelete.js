@@ -8,6 +8,7 @@ export default function BtnEditDelete({
   id,
   navigation,
   tipo,
+  mostrar,
   onDeleteSuccess,
 }) {
   const queresBorrar = () => {
@@ -28,8 +29,9 @@ export default function BtnEditDelete({
 
   const borrar = async () => {
     const api = await getApiClient()
+    const url = mostrar === 'recurrentes' ? 'movimiento/recurrente' : 'movimiento'
     await api
-      .delete(`movimiento/${tipo}/${id}`)
+      .delete(`${url}/${tipo}/${id}`)
       .then((response) => {
         onDeleteSuccess()
       })
