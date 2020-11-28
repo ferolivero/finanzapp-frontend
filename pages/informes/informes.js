@@ -24,29 +24,28 @@ export default function Informes({ navigation }) {
   }, [tipo])
 
   return (
-      <View style={styles.container}>
-        <HeaderInformes />
-        <View style={styles.bigContainer}>
-          <Selector
-            onPressAction={setTipo}
-            color={color}
-            posicion={tipo === 'gasto' ? 0 : 1}
-            disabled={false}
-          />
-                  <ScrollView>
-
+    <View style={styles.container}>
+      <HeaderInformes />
+      <View style={styles.bigContainer}>
+        <Selector
+          onPressAction={setTipo}
+          color={color}
+          posicion={tipo === 'gasto' ? 0 : 1}
+          disabled={false}
+        />
+        <ScrollView>
           <GraficoLineal tipo={tipo} />
-          <InputModalMesAnio
+          {/* <InputModalMesAnio
             label="Por categoría"
             mes={mes}
             setMes={setMes}
             anio={anio}
             setAnio={setAnio}
           />
-          <GraficoBarras tipo={tipo} mes={mes} anio={anio} />
-          </ScrollView>
-        </View>
+          <GraficoBarras tipo={tipo} mes={mes} anio={anio} /> */}
+        </ScrollView>
       </View>
+    </View>
   )
 }
 
