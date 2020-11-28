@@ -1,6 +1,6 @@
 import Constants from 'expo-constants'
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   FlatList,
   StyleSheet,
@@ -13,6 +13,7 @@ import getApiClient from '../../api/ApiClient'
 import InputModalMesAnio from '../../global-components/inputModalMesAnio'
 import Loader from './../../global-components/loader'
 import HeaderMovimientos from './components/headerMovimientos'
+import BotoneraMostrar from './components/botoneraMostrar'
 import MovRow from './components/movRow'
 let fullWidth = Dimensions.get('window').width - 40
 
@@ -21,26 +22,26 @@ export default function Movimientos({ navigation }) {
   const [mes, setMes] = useState(new Date().getMonth() + 1)
   const [anio, setAnio] = useState(new Date().getFullYear())
   const [movimientos, setMovimientos] = useState()
-  const [allMovements, setAllMovements] = useState(false)
-
-  const dateFormated = (fecha) => {
-    return fecha.substring(0, 7)
-  }
-  const mesActual = dateFormated(new Date(Date.now()).toISOString())
-  const getMovimientos = async (mes = mesActual) => {
-    const api = await getApiClient()
-    await api.get(`movimiento/mes/${mes}`).then((response) => {
-      setMovimientos(response.data)
-      setLoading(false)
-    })
-  }
+  const [mostrar, setMostrar] = useState('mes')
 
   const getMonthMovimientos = async () => {
+    getMovimientos(`movimiento/mes/${anio}-${mes}`, 'mes')
+  }
+
+  const getAllMovimientos = async () => {
+    getMovimientos(`movimiento`, 'todos')
+  }
+
+  const getAllMovimientosRecurrentes = async () => {
+    getMovimientos(`movimiento/recurrente`, 'recurrentes')
+  }
+
+  const getMovimientos = async (url, mostrar) => {
     setLoading(true)
-    setAllMovements(false)
+    setMostrar(mostrar)
     const api = await getApiClient()
     await api
-      .get(`movimiento/mes/${anio}-${mes}`)
+      .get(url)
       .then((response) => {
         setMovimientos(response.data)
         setLoading(false)
@@ -48,21 +49,13 @@ export default function Movimientos({ navigation }) {
       .catch((err) => console.log(err.message))
   }
 
-  const getAllMovimientos = async () => {
-    setLoading(true)
-    setAllMovements(true)
-    const api = await getApiClient()
-    await api.get(`movimiento`).then((response) => {
-      setMovimientos(response.data)
-      setLoading(false)
-    })
-  }
-
   const onDeleteSuccess = () => {
-    if (allMovements) {
+    if (mostrar === 'todos') {
       getAllMovimientos()
-    } else {
+    } else if (mostrar === 'mes') {
       getMonthMovimientos()
+    } else {
+      getAllMovimientosRecurrentes()
     }
   }
 
@@ -70,18 +63,20 @@ export default function Movimientos({ navigation }) {
     React.useCallback(() => {
       console.log('Desde useEffect')
       console.debug('screen takes focus')
-      setAllMovements(false)
-      getMovimientos(`${anio}-${mes}`)
+      setMostrar('mes')
+      getMonthMovimientos()
       return () => console.debug('screen loses focus')
     }, [anio, mes])
   )
 
-  // useEffect(() => {
-  //   console.log('Desde useEffect')
-  //   if (movimientos) getMovimientos(`${anio}-${mes}`)
-  // }, [anio, mes])
-
-  const renderItem = ({ item }) => <MovRow mov={item} onDeleteSuccess={onDeleteSuccess} navigation={navigation} />
+  const renderItem = ({ item }) => (
+    <MovRow
+      mov={item}
+      mostrar={mostrar}
+      onDeleteSuccess={onDeleteSuccess}
+      navigation={navigation}
+    />
+  )
 
   return (
     <>
@@ -89,7 +84,7 @@ export default function Movimientos({ navigation }) {
         <View style={styles.container}>
           <HeaderMovimientos />
           <View style={styles.bigContainer}>
-            {!allMovements ? (
+            {mostrar === 'mes' ? (
               <InputModalMesAnio
                 label="Fecha"
                 mes={mes}
@@ -98,7 +93,7 @@ export default function Movimientos({ navigation }) {
                 setAnio={setAnio}
               />
             ) : (
-              <></>
+              <Text style={styles.subtitle}>{mostrar.toUpperCase()}</Text>
             )}
             <FlatList
               style={styles.flatlist}
@@ -107,11 +102,12 @@ export default function Movimientos({ navigation }) {
               keyExtractor={(item) => item._id}
             />
           </View>
-          {!allMovements ? (
-            <Button title="Ver más" onPress={getAllMovimientos} />
-          ) : (
-            <Button title="Ver menos" onPress={getMonthMovimientos} />
-          )}
+          <BotoneraMostrar
+            mostrar={mostrar}
+            getAllMovimientos={getAllMovimientos}
+            getMonthMovimientos={getMonthMovimientos}
+            getAllMovimientosRecurrentes={getAllMovimientosRecurrentes}
+          />
         </View>
       ) : (
         <Loader></Loader>
@@ -140,13 +136,9 @@ const styles = StyleSheet.create({
     width: fullWidth,
     marginTop: 5,
   },
-  txt20: {
+  subtitle: {
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 20,
-  },
-  txt30: {
-    textAlign: 'center',
-    fontSize: 30,
   },
 })

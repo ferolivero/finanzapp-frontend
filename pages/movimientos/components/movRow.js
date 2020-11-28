@@ -1,14 +1,9 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-} from 'react-native'
-import BtnEditDelete from './btnEditDelete'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import BtnOrCuotas from './btnOrCuotas'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function MovRow({ mov, onDeleteSuccess, navigation }) {
+export default function MovRow({ mov, mostrar, onDeleteSuccess, navigation }) {
   let rowColor = mov.tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
   return (
     <View>
@@ -21,7 +16,7 @@ export default function MovRow({ mov, onDeleteSuccess, navigation }) {
           </View>
           <View style={styles.col}>
             <Text style={[styles.txtRight, { color: rowColor }]}>
-              {mov.descripcion.substring(0,13)}
+              {mov.descripcion.substring(0, 13)}
             </Text>
           </View>
         </View>
@@ -43,13 +38,12 @@ export default function MovRow({ mov, onDeleteSuccess, navigation }) {
           </View>
         </View>
         <View>
-          {mov.cuotaCant ? (
-            <Text
-              style={[styles.txtRight, { color: rowColor }]}
-            >{`Cuota ${mov.cuotaNum} de ${mov.cuotaCant}`}</Text>
-          ) : (
-            <BtnEditDelete navigation={navigation} id={mov._id.toString()} tipo={mov.tipo} onDeleteSuccess={onDeleteSuccess} />
-          )}
+          <BtnOrCuotas
+            mov={mov}
+            mostrar={mostrar}
+            onDeleteSuccess={onDeleteSuccess}
+            navigation={navigation}
+          />
         </View>
       </View>
     </View>

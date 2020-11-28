@@ -1,14 +1,16 @@
 import { faPencilAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View, Alert } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, Alert, Text } from 'react-native'
 import getApiClient from './../../../api/ApiClient'
 
 export default function BtnEditDelete({
   id,
   navigation,
   tipo,
+  mostrar,
   onDeleteSuccess,
+  cuotasRest = null,
 }) {
   const queresBorrar = () => {
     Alert.alert(
@@ -28,8 +30,10 @@ export default function BtnEditDelete({
 
   const borrar = async () => {
     const api = await getApiClient()
+    const url =
+      mostrar === 'recurrentes' ? 'movimiento/recurrente' : 'movimiento'
     await api
-      .delete(`movimiento/${tipo}/${id}`)
+      .delete(`${url}/${tipo}/${id}`)
       .then((response) => {
         onDeleteSuccess()
       })
@@ -38,12 +42,17 @@ export default function BtnEditDelete({
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-      <TouchableOpacity
-        style={styles.btnEdit}
-        onPress={() => navigation.navigate('Editar', { id: id })}
-      >
-        <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
-      </TouchableOpacity>
+      {cuotasRest ? (
+        <Text style={[styles.txtRight]}>{cuotasRest}</Text>
+      ) : (
+        <TouchableOpacity
+          style={styles.btnEdit}
+          onPress={() => navigation.navigate('Editar', { id: id, isRecurrente: mostrar === 'recurrentes', tipo: tipo })}
+        >
+          <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
+        </TouchableOpacity>
+      )}
+
       <TouchableOpacity style={styles.btnBorrar} onPress={() => queresBorrar()}>
         <FontAwesomeIcon icon={faTimesCircle} />
       </TouchableOpacity>
@@ -59,5 +68,10 @@ const styles = StyleSheet.create({
   btnBorrar: {
     padding: 5,
     marginBottom: 3,
+  },
+  txtRight: {
+    textAlign: 'right',
+    fontSize: 20,
+    marginLeft: 5,
   },
 })
