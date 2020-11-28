@@ -16,10 +16,16 @@ export default function btnOrCuotas({
       >{`Cuota ${mov.cuotaNum} de ${mov.cuotaCant}`}</Text>
     )
   } else if (mov.cuotasRestantes) {
+    const cuotasRest = `C: ${mov.cuotas - mov.cuotasRestantes} de ${mov.cuotas}`
     return (
-      <Text style={[styles.txtRight, { color: rowColor }]}>{`Cuota ${
-        mov.cuotas - mov.cuotasRestantes
-      } de ${mov.cuotas}`}</Text>
+      <BtnEditDelete
+        navigation={navigation}
+        id={mov._id.toString()}
+        mostrar={mostrar}
+        tipo={mov.tipo}
+        onDeleteSuccess={onDeleteSuccess}
+        cuotasRest={cuotasRest}
+      />
     )
   } else {
     return (
