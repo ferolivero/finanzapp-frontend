@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 export default function InputModalFecha({ label, fecha, setFecha }) {
@@ -9,7 +9,7 @@ export default function InputModalFecha({ label, fecha, setFecha }) {
     setModalVisible(false)
   }
 
-  const fechaFormated = (fecha) => fecha.substring(0, 10)
+  const fechaFormated = (date) => date.toISOString().substring(0, 10)
 
   return (
     <View>

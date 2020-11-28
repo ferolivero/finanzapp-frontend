@@ -7,7 +7,7 @@ export default function Agregar({ navigation }) {
     tipo: 'gasto',
     monto: '',
     descripcion: '',
-    fecha: new Date(Date.now()).toISOString(),
+    fecha: new Date(Date.now()),
     categoria: 'Otros',
   }
 
