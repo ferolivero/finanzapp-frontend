@@ -42,13 +42,6 @@ export default function Formulario(props) {
   const [isCuotas, setIsCuotas] = useState(false)
   const [cuotas, setCuotas] = useState(1)
 
-  // useEffect(() => {
-  //   if (props.movimiento._id) {
-  //     setOpciones(opEditar)
-  //   }
-  //   reset()
-  //   console.log(fecha)
-  // }, [props.movimiento._id])
 
   useFocusEffect(
     React.useCallback(() => {
@@ -56,7 +49,7 @@ export default function Formulario(props) {
       if (props.movimiento._id) {
         setOpciones(opEditar)
       }
-      reset()
+      borrar()
       return () => console.debug('form loses focus')
     }, [props.movimiento._id])
   )
@@ -112,13 +105,24 @@ export default function Formulario(props) {
     setIsCuotas(false)
   }
 
-  const reset = () => {
+  const borrar = () => {
     setTipo(props.movimiento.categoria)
     setMonto(props.movimiento.monto)
     setDescripcion(props.movimiento.descripcion)
     setFecha(props.movimiento.fecha)
     setCategoria(props.movimiento.categoria)
     setTipo(props.movimiento.tipo)
+    setIsCuotas(false)
+    setCuotas(1)
+    if (props.isRecurrente) {
+      setIsRecurrente(props.isRecurrente)
+    } else {
+      setIsRecurrente(false)
+    }
+  }
+
+  const reset = () => {
+    borrar()
     if (opciones.subtitulo === 'Editar') {
       props.navigation.navigate('Movs')
     }
@@ -204,11 +208,15 @@ export default function Formulario(props) {
                 value={categoria}
                 setValue={setCategoria}
               />
-              <InputModalFecha
+              {
+                !isRecurrente || opciones.subtitulo === 'Agregar' ?
+                <InputModalFecha
                 label="Fecha"
                 fecha={fecha}
                 setFecha={setFecha}
-              />
+              /> :
+              <></>
+              }
               {
                 !isCuotas && opciones.subtitulo === 'Agregar' ? (
                   <InputSwitch

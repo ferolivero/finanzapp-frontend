@@ -47,7 +47,7 @@ export default function BtnEditDelete({
       ) : (
         <TouchableOpacity
           style={styles.btnEdit}
-          onPress={() => navigation.navigate('Editar', { id: id })}
+          onPress={() => navigation.navigate('Editar', { id: id, isRecurrente: mostrar === 'recurrentes', tipo: tipo })}
         >
           <FontAwesomeIcon icon={faPencilAlt}></FontAwesomeIcon>
         </TouchableOpacity>

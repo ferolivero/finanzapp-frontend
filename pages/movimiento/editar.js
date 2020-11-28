@@ -5,7 +5,6 @@ import Loader from './../../global-components/loader'
 import Formulario from './components/formulario'
 import { useFocusEffect } from '@react-navigation/native'
 
-
 export default function Editar({ navigation, route }) {
   const [loading, setLoading] = useState(true)
   const [movimiento, setMovimiento] = useState()
@@ -15,20 +14,23 @@ export default function Editar({ navigation, route }) {
   }, [movimiento])
 
   useEffect(() => {
-    if (loading){
+    if (loading) {
       buscarMovimiento(route.params.id)
     }
   }, [loading])
 
-  useFocusEffect(React.useCallback(() => {
-    console.debug("screen takes focus", route.params.id);
-    setLoading(true)
-    return () => console.debug("screen loses focus");
-  }, []));
+  useFocusEffect(
+    React.useCallback(() => {
+      console.debug('screen takes focus', route.params.id)
+      setLoading(true)
+      return () => console.debug('screen loses focus')
+    }, [])
+  )
 
   const buscarMovimiento = async (id) => {
     const api = await getApiClient()
-    await api.get(`movimiento/${id}`).then((response) => {
+    const url = route.params.isRecurrente ? `movimiento/recurrente/${route.params.tipo}` : 'movimiento'
+    await api.get(`${url}/${id}`).then((response) => {
       let mov = response.data
       mov.fecha = new Date(mov.fecha)
       setMovimiento(mov)
@@ -39,7 +41,7 @@ export default function Editar({ navigation, route }) {
   return (
     <>
       {!loading ? (
-        <Formulario navigation={navigation} movimiento={movimiento} />
+        <Formulario navigation={navigation} movimiento={movimiento} isRecurrente={route.params.isRecurrente}/>
       ) : (
         <Loader></Loader>
       )}
