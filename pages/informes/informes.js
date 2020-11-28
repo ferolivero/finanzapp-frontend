@@ -43,7 +43,7 @@ export default function Informes({ navigation }) {
             anio={anio}
             setAnio={setAnio}
           />
-          <GraficoBarras tipo={tipo} mes={mes} anio={anio} />
+          {/* <GraficoBarras tipo={tipo} mes={mes} anio={anio} /> */}
           </ScrollView>
         </View>
       </View>

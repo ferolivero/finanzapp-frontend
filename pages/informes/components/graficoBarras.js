@@ -16,9 +16,6 @@ export default function Informes({ tipo, mes, anio }) {
     ],
   })
 
-  useEffect(() => {
-    getData()
-  }, [tipo, mes, anio])
 
   const getData = async () => {
     const api = await getApiClient()
@@ -32,7 +29,7 @@ export default function Informes({ tipo, mes, anio }) {
       console.debug('screen takes focus')
       getData()
       return () => console.debug('screen loses focus')
-    }, [])
+    }, [tipo, mes, anio])
   )
 
   const chartConfig = {
