@@ -1,41 +1,62 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Dimensions, ScrollView } from 'react-native'
-import HeaderInformes from './components/headerInformes'
-import Selector from '../../global-components/selector'
+import { useFocusEffect } from '@react-navigation/native'
 import Constants from 'expo-constants'
+import React, { useState } from 'react'
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native'
+import getApiClient from '../../api/ApiClient'
+import Loader from '../../global-components/loader'
+import Selector from '../../global-components/selector'
 import GraficoLineal from './components/graficoLineal'
-import GraficoBarras from './components/graficoBarras'
-import InputModalMesAnio from '../../global-components/inputModalMesAnio'
+import HeaderInformes from './components/headerInformes'
 
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function Informes({ navigation }) {
+export default function Informes() {
+  const [loading, setLoading] = useState(true)
   const [tipo, setTipo] = useState('gasto')
+  const [data, setData] = useState()
   const [color, setColor] = useState('')
-  const [mes, setMes] = useState(new Date().getMonth() + 1)
-  const [anio, setAnio] = useState(new Date().getFullYear())
 
-  useEffect(() => {
-    if (tipo === 'ingreso') {
-      setColor('rgb(0,125,0)')
-    } else {
-      setColor('rgb(255,0,0)')
-    }
-  }, [tipo])
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Desde useEffect')
+      console.debug('screen takes focus')
+      if (tipo === 'ingreso') {
+        setColor('rgb(0,125,0)')
+      } else {
+        setColor('rgb(255,0,0)')
+      }
+      getInformes(tipo)
+      return () => console.debug('screen loses focus')
+    }, [tipo])
+  )
+
+  const getInformes = async (tipoInforme) => {
+    setLoading(true)
+    const api = await getApiClient()
+    await api
+      .get(`/informe/${tipoInforme}/ultimos-seis-meses`)
+      .then((response) => {
+        setData(response.data)
+        setLoading(false)
+      })
+      .catch((err) => console.log(err.message))
+  }
 
   return (
-    <View style={styles.container}>
-      <HeaderInformes />
-      <View style={styles.bigContainer}>
-        <Selector
-          onPressAction={setTipo}
-          color={color}
-          posicion={tipo === 'gasto' ? 0 : 1}
-          disabled={false}
-        />
-        <ScrollView>
-          <GraficoLineal tipo={tipo} />
-          {/* <InputModalMesAnio
+    <>
+      {!loading ? (
+        <View style={styles.container}>
+          <HeaderInformes />
+          <View style={styles.bigContainer}>
+            <Selector
+              onPressAction={setTipo}
+              color={color}
+              posicion={tipo === 'gasto' ? 0 : 1}
+              disabled={false}
+            />
+            <ScrollView>
+              <GraficoLineal tipo={tipo} data={data} />
+              {/* <InputModalMesAnio
             label="Por categoría"
             mes={mes}
             setMes={setMes}
@@ -43,9 +64,13 @@ export default function Informes({ navigation }) {
             setAnio={setAnio}
           />
           <GraficoBarras tipo={tipo} mes={mes} anio={anio} /> */}
-        </ScrollView>
-      </View>
-    </View>
+            </ScrollView>
+          </View>
+        </View>
+      ) : (
+        <Loader></Loader>
+      )}
+    </>
   )
 }
 
