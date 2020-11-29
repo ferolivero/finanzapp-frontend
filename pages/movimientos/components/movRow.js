@@ -3,7 +3,13 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import BtnOrCuotas from './btnOrCuotas'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function MovRow({ mov, mostrar, onDeleteSuccess, navigation }) {
+export default function MovRow({
+  mov,
+  mostrar,
+  config,
+  onDeleteSuccess,
+  navigation,
+}) {
   let rowColor = mov.tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
   return (
     <View>
@@ -26,7 +32,9 @@ export default function MovRow({ mov, mostrar, onDeleteSuccess, navigation }) {
           </Text>
         </View>
         <View style={styles.col}>
-          <Text style={[styles.txtRight, { color: rowColor }]}>$</Text>
+          <Text style={[styles.txtRight, { color: rowColor }]}>
+            {config.moneda}
+          </Text>
         </View>
       </View>
       <View style={styles.rowWrapperDown}>
