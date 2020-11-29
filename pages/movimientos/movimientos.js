@@ -1,23 +1,18 @@
-import Constants from 'expo-constants'
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useState } from 'react'
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Dimensions,
-  Text,
-  Button,
-} from 'react-native'
+import Constants from 'expo-constants'
+import React, { useContext, useState } from 'react'
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native'
 import getApiClient from '../../api/ApiClient'
+import GlobalContext from '../../components/global/context'
 import InputModalMesAnio from '../../global-components/inputModalMesAnio'
 import Loader from './../../global-components/loader'
-import HeaderMovimientos from './components/headerMovimientos'
 import BotoneraMostrar from './components/botoneraMostrar'
+import HeaderMovimientos from './components/headerMovimientos'
 import MovRow from './components/movRow'
 let fullWidth = Dimensions.get('window').width - 40
 
 export default function Movimientos({ navigation }) {
+  const context = useContext(GlobalContext)
   const [loading, setLoading] = useState(true)
   const [mes, setMes] = useState(new Date().getMonth() + 1)
   const [anio, setAnio] = useState(new Date().getFullYear())
@@ -73,6 +68,7 @@ export default function Movimientos({ navigation }) {
     <MovRow
       mov={item}
       mostrar={mostrar}
+      config={context.config}
       onDeleteSuccess={onDeleteSuccess}
       navigation={navigation}
     />

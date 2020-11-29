@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text } from 'react-native'
-import Header from '../../../global-components/header'
+import GlobalContext from '../../../components/global/context'
 const mesActual = new Date()
 const monthNames = [
   'Enero',
@@ -17,6 +17,7 @@ const monthNames = [
   'Diciembre',
 ]
 export default function HeaderHome(props) {
+  const context = useContext(GlobalContext)
   const getStyle = () => {
     if (props.ingresos > 0) {
       const porcentajeGastos = props.gastos / props.ingresos
@@ -31,7 +32,10 @@ export default function HeaderHome(props) {
       <Text style={{ fontSize: 30 }}>
         Balance {monthNames[mesActual.getMonth()]}
       </Text>
-      <Text style={[styles.text, getStyle()]}>${props.balance}</Text>
+      <Text style={[styles.text, getStyle()]}>
+        {context.config.moneda}
+        {props.balance}
+      </Text>
     </>
   )
 }

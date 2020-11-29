@@ -1,13 +1,14 @@
 import { useFocusEffect } from '@react-navigation/native'
 import Constants from 'expo-constants'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import GlobalContext from '../../components/global/context'
 import getApiClient from './../../api/ApiClient'
 import Loader from './../../global-components/loader'
-import Header from './../../global-components/header'
 import HeaderHome from './components/headerHome'
 
 export default function Home({ navigation }) {
+  const context = useContext(GlobalContext)
   const [loading, setLoading] = useState(true)
   const [balance, setBalance] = useState()
   const dateFormated = (fecha) => {
@@ -26,6 +27,7 @@ export default function Home({ navigation }) {
     React.useCallback(() => {
       console.log('Desde useEffect')
       console.debug('home takes focus')
+      console.log(context.config)
       getBalance()
       return () => console.debug('home loses focus')
     }, [])
@@ -50,9 +52,13 @@ export default function Home({ navigation }) {
                 borderBottomWidth: 1,
               }}
             />
-            <Text style={{ fontSize: 25 }}>Tus Gastos ${balance.gastos}</Text>
             <Text style={{ fontSize: 25 }}>
-              Tus Ingresos ${balance.ingresos}
+              Tus Gastos {context.config.moneda}
+              {balance.gastos}
+            </Text>
+            <Text style={{ fontSize: 25 }}>
+              Tus Ingresos {context.config.moneda}
+              {balance.ingresos}
             </Text>
           </View>
         </View>
