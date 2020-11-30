@@ -8,21 +8,23 @@ export default function BtnEditDelete({
   id,
   navigation,
   tipo,
+  nombre
 }) {
   const queresBorrar = () => {
     Alert.alert(
-      `Borrar ${tipo}`,
-      'Si borra este movmiento, no se podrá recuperar.',
+      `Borrar ${nombre}`,
+      'Si borra esta categoria, no se podrá recuperar.',
       [
         {
           text: 'Cancelar',
-          onPress: () => console.log('No se borra el movmiento' + id),
+          onPress: () => console.log('No se borra el categoria' + id),
           style: 'cancel',
         },
         { text: 'Borrar', onPress: () => borrar() },
       ],
       { cancelable: true }
     )
+    
   }
 
   const borrar = async () => {
@@ -33,6 +35,7 @@ export default function BtnEditDelete({
       .then((response) => {
       })
       .catch((err) => console.log(err.message)) //meter alert
+      navigation.navigate('Config')
   }
 
   return (

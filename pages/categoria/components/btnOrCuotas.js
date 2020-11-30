@@ -12,6 +12,7 @@ export default function btnOrCuotas({
       navigation={navigation}
       id={cat._id.toString()}
       tipo={cat.tipo}
+      nombre={cat.nombre}
       />
     )
   

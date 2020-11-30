@@ -95,12 +95,14 @@ export default function App() {
         <GlobalContext.Provider
           value={{
             config: config,
+            onLogout: logout,
+            onChangeConfig: handleChangeConfig
           }}
         >
           <NavigationContainer>
             <Tab.Navigator
               screenOptions={({ route }) => ({
-                tabBarButton: ['Editar','EditarTar','EditarCat'].includes(route.name)
+                tabBarButton: ['Editar','EditarTar','EditarCat','Tarjeta','Categoria'].includes(route.name)
                   ? () => {
                       return null
                     }
@@ -182,13 +184,14 @@ export default function App() {
               />
               <Tab.Screen
                 name="Config"
-                children={() => (
-                  <Configuracion
-                    onLogout={logout}
-                    onChangeConfig={handleChangeConfig}
+                component={Configuracion}
+                // children={() => (
+                //   <Configuracion
+                //     onLogout={logout}
+                //     onChangeConfig={handleChangeConfig}
                     
-                  ></Configuracion>
-                )}
+                //   ></Configuracion>
+                // )}
                 options={{
                   tabBarLabel: 'Perfil',
                   tabBarIcon: () => (
