@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import SwitchSelector from "react-native-switch-selector";
 
 
-export default function Selector({ onPressAction, color, posicion, disabled }) {
+export default function Selector({ onPressAction, color, posicion }) {
+    const switchRef = useRef(posicion);
+
+    useEffect(()=>{
+        switchRef.current?.toggleItem(posicion);
+    }, [posicion])
+    
     return (
         <SwitchSelector
-            initial={posicion}
+            ref={switchRef}
+            initial={0}
             selectedColor='rgb(255,255,255)'
             onPress={value => onPressAction(value)}
             buttonColor={color}
@@ -14,7 +21,6 @@ export default function Selector({ onPressAction, color, posicion, disabled }) {
             fontSize={25}
             backgroundColor={'#D3D3D3'}
             hasPadding
-            disabled={disabled}
             options={[
                 { label: "Gasto", value: "gasto" },
                 { label: "Ingreso", value: "ingreso" }

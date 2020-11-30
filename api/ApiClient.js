@@ -6,7 +6,6 @@ const tokenStorageKey = '@app_token'
 
 const getAccessToken = async () => {
   try {
-    console.log('GetAccessToken: ', tokenStorageKey)
     const retrievedItem = await getData(tokenStorageKey)
     if (retrievedItem !== null) {
       const authorization = `Bearer ${retrievedItem}`
@@ -41,11 +40,7 @@ function getUrl(config) {
 // Intercept all requests
 apiClient.interceptors.request.use(
   (config) => {
-    console.log(
-      `%c ${config.method.toUpperCase()} - ${getUrl(config)}:`,
-      'color: #0086b3; font-weight: bold',
-      config
-    )
+    console.log(`${config.method.toUpperCase()} - ${getUrl(config)}`)
     return config
   },
   (error) => Promise.reject(error)

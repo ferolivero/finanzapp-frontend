@@ -1,63 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native'
-import MovRow from './components/movRow'
-import HeaderHome from './components/headerHome'
+import { useFocusEffect } from '@react-navigation/native'
 import Constants from 'expo-constants'
+import React, { useContext, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import GlobalContext from '../../components/global/context'
 import getApiClient from './../../api/ApiClient'
+import Loader from './../../global-components/loader'
+import HeaderHome from './components/headerHome'
 
 export default function Home({ navigation }) {
-  const [movimientos, setMovimientos] = useState()
-
-
-  const getMovimientos = async () => {
+  const context = useContext(GlobalContext)
+  const [loading, setLoading] = useState(true)
+  const [balance, setBalance] = useState()
+  const dateFormated = (fecha) => {
+    return fecha.substring(0, 7)
+  }
+  const mesActual = dateFormated(new Date(Date.now()).toISOString())
+  const getBalance = async (mes = mesActual) => {
     const api = await getApiClient()
-    console.log('API', api)
-    await api.get('movimiento').then((response) => {
-      console.log(response.data)
-      setMovimientos(response.data)
+    await api.get(`movimiento/balance/${mes}`).then((response) => {
+      setBalance(response.data)
+      setLoading(false)
     })
   }
 
-    
-
-
-
-  useEffect(() => {
-    getMovimientos()
-  }, [])
-
-  const dateFormated = (fecha) => {
-    return fecha.substring(0, 10)
-  }
-
-  const renderItem = ({ item }) => (
-    <MovRow
-      fecha={dateFormated(item.fecha)}
-      monto={item.monto}
-      descripcion={item.descripcion}
-    />
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Desde useEffect')
+      console.debug('home takes focus')
+      console.log(context.config)
+      getBalance()
+      return () => console.debug('home loses focus')
+    }, [])
   )
-
   return (
-    <View style={styles.container}>
-      <HeaderHome />
-      <View style={styles.bigContainer}>
-        <Text style={styles.txt20}>Gastos $4543 | Ingresos $4534</Text>
-        <Text style={styles.txt30}>Últimos movimientos</Text>
-        <FlatList
-          style={styles.flatlist}
-          data={movimientos}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.__id}
-        />
-        <Button
-          title="Ver más"
-          onPress={() => {
-            navigation.navigate('Movimientos')
-          }}
-        />
-      </View>
-    </View>
+    <>
+      {!loading ? (
+        <View style={styles.container}>
+          <Text style={styles.txt30}>Bienvenido a FinanzApp</Text>
+          <Text style={styles.txt20}>Aplicacion de finanzas personales</Text>
+          <HeaderHome
+            balance={balance.balance}
+            ingresos={balance.ingresos}
+            gastos={balance.gastos}
+          />
+
+          <View style={styles.bigContainer}>
+            <Text style={styles.txt30}>Totales del Mes</Text>
+            <View
+              style={{
+                borderBottomColor: 'black',
+                borderBottomWidth: 1,
+              }}
+            />
+            <Text style={{ fontSize: 25 }}>
+              Tus Gastos {context.config.moneda}
+              {balance.gastos}
+            </Text>
+            <Text style={{ fontSize: 25 }}>
+              Tus Ingresos {context.config.moneda}
+              {balance.ingresos}
+            </Text>
+          </View>
+        </View>
+      ) : (
+        <Loader></Loader>
+      )}
+    </>
   )
 }
 
@@ -74,6 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     paddingTop: 0,
+    marginTop: 15,
   },
   flatlist: {
     alignSelf: 'center',
