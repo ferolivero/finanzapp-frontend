@@ -20,6 +20,11 @@ import LoginScreen from './pages/Login/Login.js'
 import Agregar from './pages/movimiento/agregar.js'
 import Editar from './pages/movimiento/editar.js'
 import Movimientos from './pages/movimientos/movimientos.js'
+import Categoria from './pages/categoria/agregar.js'
+import EditarCat from './pages/categoria/editar.js'
+import Tarjeta from './pages/tarjeta/agregar.js'
+import EditarTar from './pages/tarjeta/editar.js'
+
 
 const tokenStorageKey = '@app_token'
 const configStorageKey = '@user_config'
@@ -95,7 +100,7 @@ export default function App() {
           <NavigationContainer>
             <Tab.Navigator
               screenOptions={({ route }) => ({
-                tabBarButton: ['Editar'].includes(route.name)
+                tabBarButton: ['Editar','EditarTar','EditarCat'].includes(route.name)
                   ? () => {
                       return null
                     }
@@ -181,6 +186,7 @@ export default function App() {
                   <Configuracion
                     onLogout={logout}
                     onChangeConfig={handleChangeConfig}
+                    
                   ></Configuracion>
                 )}
                 options={{
@@ -190,6 +196,62 @@ export default function App() {
                       icon={faUserCircle}
                       color="indianred"
                       size={30}
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="EditarCat"
+                component={EditarCat}
+                options={{
+                  tabBarLabel: 'EditarCat',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Categoria"
+                component={Categoria}
+                options={{
+                  tabBarLabel: 'Categoria',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="EditarTar"
+                component={EditarTar}
+                options={{
+                  tabBarLabel: 'EditarTar',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Tarjeta"
+                component={Tarjeta}
+                options={{
+                  tabBarLabel: 'Tarjeta',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      size={30}
+                      color="indianred"
                     ></FontAwesomeIcon>
                   ),
                 }}

@@ -72,6 +72,8 @@ export default function Config({ navigation, onLogout, onChangeConfig }) {
               label2="Restablecer"
               action2={reset}
             />
+            <Button onPress={ () =>  navigation.navigate('Categoria')  } title="Categoria"></Button>
+            <Button onPress={ () =>  navigation.navigate('Tarjeta')  } title="Tarjeta"></Button>
             <Button onPress={onLogout} title="Deslogearse"></Button>
           </View>
         </View>
