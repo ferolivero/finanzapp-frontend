@@ -40,9 +40,18 @@ export default function App() {
 
   const checkToken = async () => {
     const token = await getData(tokenStorageKey)
-    if (token != undefined) {
-      setAuthenticated(true)
+    console.log({ token })
+    if (token) {
+      // setAuthenticated(true)
       setToken(tokenStorageKey)
+      getConfig().then((configCheked) => {
+        console.log({ configCheked })
+        if (configCheked) {
+          setAuthenticated(true)
+        } else {
+          logout()
+        }
+      })
     }
   }
 
@@ -68,6 +77,7 @@ export default function App() {
     let configStored = await getData(configStorageKey)
     console.log({ configStored })
     setConfig(configStored)
+    return configStored
   }
 
   const isAuthenticated = () => {
@@ -76,7 +86,6 @@ export default function App() {
 
   useEffect(() => {
     checkToken()
-    getConfig()
   }, [])
 
   return (
