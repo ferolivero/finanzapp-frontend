@@ -18,10 +18,10 @@ import HeaderCategoria from './headerCategoria'
 import Constants from 'expo-constants'
 import getApiClient from '../../../api/ApiClient'
 
-let fullWidth = Dimensions.get('window').width //full width
+let fullWidth = Dimensions.get('window').width -40//full width
 const opAgregar = {
   subtitulo: 'Agregar',
-  label2: 'Borrar',
+  label2: 'Cancelar',
 }
 const opEditar = {
   subtitulo: 'Editar',
@@ -96,9 +96,9 @@ export default function Formulario(props) {
   }
   const reset = () => {
     borrar()
-    if (opciones.subtitulo === 'Editar') {
+    //if (opciones.subtitulo === 'Editar') {
       props.navigation.navigate('Cats')
-    }
+    //}
   }
 
   const btnAlert = (msj) =>
@@ -110,13 +110,13 @@ export default function Formulario(props) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={styles.containerk}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <HeaderCategoria />
           <View style={styles.bigContainer}>
-            <Text style={styles.subtitulo}>{opciones.subtitulo}</Text>
+            <Text style={styles.subtitulo}>{opciones.subtitulo} categoría</Text>
             <ScrollView>
               {props.categoria._id ? (
                 <Text style={styles.tipoEditable}>
@@ -160,13 +160,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  containerk: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     marginTop: Constants.statusBarHeight,
   },
   bigContainer: {
     flex: 1,
     padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingTop: 0,
     width: fullWidth,
   },
   subtitulo: {

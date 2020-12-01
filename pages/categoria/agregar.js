@@ -6,7 +6,6 @@ export default function Agregar({ navigation }) {
     id: null,
     tipo: 'gasto',
     nombre: '',
-    user: ""
   }
   console.log(navigation);
 

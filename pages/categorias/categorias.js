@@ -88,7 +88,7 @@ export default function Categorias({ navigation }) {
         <View style={styles.container}>
           <HeaderCategorias />
           <View style={styles.bigContainer}>
-            
+          <Text style={styles.subtitulo}>Categorías</Text>
               <Selector
                 onPressAction={setMostrar}
                 color={color}
@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
     width: fullWidth,
     marginTop: 5,
   },
-  subtitle: {
-    textAlign: 'center',
+  subtitulo: {
     fontSize: 20,
-    marginBottom: 20,
+    textAlign: 'center',
+    paddingBottom: 10,
   },
   btn: {
     borderWidth: 1,

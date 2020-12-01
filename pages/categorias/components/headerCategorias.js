@@ -4,6 +4,6 @@ import Header from '../../../global-components/header';
 export default function HeaderCategorias() {
 
     return (
-        <Header txt="Tarjetas" />
+        <Header txt="Configuración" />
     );
 }

@@ -1,40 +1,27 @@
 import React from 'react'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
-import BtnOrCuotas from './btnOrCuotas'
+import BtnEditDelete from './btnEditDelete'
 let fullWidth = Dimensions.get('window').width - 40 //full width
 
-export default function CatRow({
-  cat,
-  mostrar,
-  onDeleteSuccess,
-  navigation,
-}) {
+export default function CatRow({ cat, mostrar, onDeleteSuccess, navigation }) {
   let rowColor = cat.tipo === 'ingreso' ? 'rgb(0,128,0)' : 'rgb(255,0,0)'
   return (
     <View>
-      <View style={styles.rowWrapperUp}>
-        <View style={styles.rowWrapperInterior}>
-          <View style={styles.col}>
-            <Text style={[styles.txtLeft, { color: rowColor }]}>
-              {`Nombre: ${cat.nombre}`}
-            </Text>
-          </View>          
-        </View>        
-      </View>
       <View style={styles.rowWrapperDown}>
         <View style={styles.rowWrapperInterior}>
           <View style={styles.col}>
-            <Text
-              style={[styles.txtLeft, { color: rowColor }]}
-            >{`Tipo: ${cat.tipo.toUpperCase()}`}</Text>
+            <Text style={[styles.txtLeft, { color: rowColor }]}>
+              {cat.nombre}
+            </Text>
           </View>
         </View>
         <View>
-          <BtnOrCuotas
-            cat={cat}
-            mostrar={mostrar}
-            onDeleteSuccess={onDeleteSuccess}
+          <BtnEditDelete
             navigation={navigation}
+            id={cat._id.toString()}
+            mostrar={mostrar}
+            tipo={cat.tipo}
+            onDeleteSuccess={onDeleteSuccess}
           />
         </View>
       </View>
