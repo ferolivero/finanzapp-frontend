@@ -20,6 +20,12 @@ import LoginScreen from './pages/Login/Login.js'
 import Agregar from './pages/movimiento/agregar.js'
 import Editar from './pages/movimiento/editar.js'
 import Movimientos from './pages/movimientos/movimientos.js'
+import Categorias from './pages/categorias/categorias.js'
+import AgregarCat from './pages/categoria/agregar.js'
+import EditarCat from './pages/categoria/editar.js'
+import Tarjetas from './pages/tarjetas/tarjetas.js'
+import AgregarTar from './pages/tarjeta/agregar.js'
+import EditarTar from './pages/tarjeta/editar.js'
 
 const tokenStorageKey = '@app_token'
 const configStorageKey = '@user_config'
@@ -99,12 +105,14 @@ export default function App() {
         <GlobalContext.Provider
           value={{
             config: config,
+            onLogout: logout,
+            onChangeConfig: handleChangeConfig
           }}
         >
           <NavigationContainer>
             <Tab.Navigator
               screenOptions={({ route }) => ({
-                tabBarButton: ['Editar'].includes(route.name)
+                tabBarButton: ['Editar','Cats','EditarCat','AgregarCat','AgregarTar','EditarTar','Tars'].includes(route.name)
                   ? () => {
                       return null
                     }
@@ -142,6 +150,7 @@ export default function App() {
                   ),
                 }}
               />
+              
               <Tab.Screen
                 name="Editar"
                 component={Editar}
@@ -184,14 +193,93 @@ export default function App() {
                   ),
                 }}
               />
+               <Tab.Screen
+                name="Cats"
+                component={Categorias}
+                options={{
+                  tabBarLabel: 'Categorias',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="AgregarCat"
+                component={AgregarCat}
+                options={{
+                  tabBarLabel: 'AgregarCat',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="EditarCat"
+                component={EditarCat}
+                options={{
+                  tabBarLabel: 'EditarCat',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Tars"
+                component={Tarjetas}
+                options={{
+                  tabBarLabel: 'Tarjetas',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="AgregarTar"
+                component={AgregarTar}
+                options={{
+                  tabBarLabel: 'AgregarTar',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="EditarTar"
+                component={EditarTar}
+                options={{
+                  tabBarLabel: 'EditarTar',
+                  tabBarIcon: () => (
+                    <FontAwesomeIcon
+                      icon={faListAlt}
+                      size={30}
+                      color="indianred"
+                    ></FontAwesomeIcon>
+                  ),
+                }}
+              />
               <Tab.Screen
                 name="Config"
-                children={() => (
-                  <Configuracion
-                    onLogout={logout}
-                    onChangeConfig={handleChangeConfig}
-                  ></Configuracion>
-                )}
+                component={Configuracion}
                 options={{
                   tabBarLabel: 'Perfil',
                   tabBarIcon: () => (
