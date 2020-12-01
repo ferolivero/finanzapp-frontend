@@ -1,19 +1,21 @@
 import { useFocusEffect } from '@react-navigation/native'
 import Constants from 'expo-constants'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, Dimensions, StyleSheet, Text, View } from 'react-native'
 import getApiClient from '../../api/ApiClient'
 import Loader from '../../global-components/loader'
 import Row2Botones from '../../global-components/row2Botones'
 import HeaderConfiguracion from './components/headerConfiguracion'
 import InputModal from './components/inputModal'
+import GlobalContext from '../../components/global/context'
 
 let fullWidth = Dimensions.get('window').width //full width
 
-export default function Config({ navigation, onLogout, onChangeConfig }) {
+export default function Config({ navigation }) {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState({})
   const [moneda, setMoneda] = useState('')
+  const context = useContext(GlobalContext)
 
   const getUser = async () => {
     setLoading(true)
@@ -46,7 +48,7 @@ export default function Config({ navigation, onLogout, onChangeConfig }) {
       .put('/config/user', userConfig)
       .then((response) => {
         setUser(response.data)
-        onChangeConfig(userConfig)
+        context.onChangeConfig(userConfig)
         setLoading(false)
       })
       .catch((err) => console.log(err.message))
@@ -72,7 +74,15 @@ export default function Config({ navigation, onLogout, onChangeConfig }) {
               label2="Restablecer"
               action2={reset}
             />
-            <Button onPress={onLogout} title="Deslogearse"></Button>
+            <View style={styles.btn}>
+            <Button  onPress={ () =>  navigation.navigate('Cats')  } title="Administrador de Categoria"></Button>
+            </View>
+            <View style={styles.btn}>
+            <Button onPress={ () =>  navigation.navigate('Tars')  } title="Administrador de Tarjeta"></Button>
+            </View>
+            <View style={styles.btn}>
+            <Button onPress={context.onLogout} title="Deslogearse" ></Button>
+            </View>
           </View>
         </View>
       ) : (
@@ -105,5 +115,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 10,
+  },
+  btn: {
+    borderWidth: 1,
+    flex: 0,
+    margin: 1
   },
 })
